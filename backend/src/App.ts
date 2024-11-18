@@ -1,9 +1,7 @@
 import express from "express";
-import dotenv from "dotenv";
 import router from "./routes/Router";
-
-// Load environment variables
-dotenv.config();
+import userRouter from "./routes/UserRouter";
+import postRouter from "./routes/PostRouter";
 
 // Initialize the app
 const app = express();
@@ -13,5 +11,7 @@ app.use(express.json());
 
 // Routes
 app.use("/hello-world", router);
+app.use("/api/users", userRouter);
+app.use("/api/posts", postRouter);
 
 export default app;
