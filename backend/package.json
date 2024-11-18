@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/ruizterce/linkeem#readme",
   "dependencies": {
+    "@prisma/client": "^5.22.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.1"
   },
