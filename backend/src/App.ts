@@ -1,21 +1,17 @@
 import express from "express";
 import dotenv from "dotenv";
+import router from "./routes/Router";
+
+// Load environment variables
 dotenv.config();
 
-// Initialize the Express app
+// Initialize the app
 const app = express();
 
 // Middleware
-app.use(express.json()); // Parse incoming JSON requests
+app.use(express.json());
 
-// Basic route
-app.get("/", (req, res) => {
-  res.send("Hello, Linkeem!");
-});
+// Routes
+app.use("/hello-world", router);
 
-// Server configuration
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+export default app;

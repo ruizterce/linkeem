@@ -2,9 +2,9 @@
   "name": "linkeem-backend",
   "version": "1.0.0",
   "description": "A social media project",
-  "main": "App.ts",
+  "main": "server.ts",
   "scripts": {
-    "dev": "tsx watch src/App.ts",
+    "dev": "tsx watch src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
