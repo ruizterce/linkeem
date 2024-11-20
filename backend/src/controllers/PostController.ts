@@ -32,6 +32,62 @@ export const PostController = {
     }
   },
 
+  // Update a post
+  updatePost: async (req: Request, res: Response): Promise<Response | void> => {
+    const { postId } = req.params;
+    const { content, currentUserId } = req.body; //TODO set user with authentication middleware
+
+    try {
+      // Fetch the post to ensure the user is the author
+      const post = await PostModel.getPostById(postId);
+
+      if (!post) {
+        return res.status(404).json({ message: "Post not found." });
+      }
+
+      if (post.authorId !== currentUserId) {
+        return res
+          .status(403)
+          .json({ message: "You are not authorized to update this post." });
+      }
+
+      // Update the post
+      const updatedPost = await PostModel.updatePost(postId, content);
+      return res.status(200).json(updatedPost);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Error updating post." });
+    }
+  },
+
+  // Delete a post
+  deletePost: async (req: Request, res: Response): Promise<Response | void> => {
+    const { postId } = req.params;
+    const { currentUserId } = req.body; //TODO set user with authentication middleware
+
+    try {
+      // Fetch the post to ensure the user is the author
+      const post = await PostModel.getPostById(postId);
+
+      if (!post) {
+        return res.status(404).json({ message: "Post not found." });
+      }
+
+      if (post.authorId !== currentUserId) {
+        return res
+          .status(403)
+          .json({ message: "You are not authorized to delete this post." });
+      }
+
+      // Delete the post
+      await PostModel.deletePost(postId);
+      return res.status(200).json({ message: "Post deleted successfully." });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Error deleting post." });
+    }
+  },
+
   // Like a post
   likePost: async (req: Request, res: Response): Promise<Response | void> => {
     const { postId } = req.params;

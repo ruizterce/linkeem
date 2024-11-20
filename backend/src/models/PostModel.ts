@@ -10,6 +10,18 @@ export const PostModel = {
     });
   },
 
+  // Fetch a single post by ID
+  getPostById: async (postId: string) => {
+    return prisma.post.findUnique({
+      where: { id: postId },
+      include: {
+        author: true,
+        comments: true,
+        likes: true,
+      },
+    });
+  },
+
   // Fetch recent posts for the user and their followings
   fetchRecentPosts: async (currentUserId: string) => {
     return await prisma.post.findMany({
@@ -25,6 +37,23 @@ export const PostModel = {
         likes: true,
       },
       orderBy: { createdAt: "desc" },
+    });
+  },
+
+  // Update a post by ID
+  updatePost: async (postId: string, content: string) => {
+    return prisma.post.update({
+      where: { id: postId },
+      data: { content },
+    });
+  },
+
+  // Delete a post by ID
+  deletePost: async (postId: string) => {
+    return prisma.post.delete({
+      where: {
+        id: postId,
+      },
     });
   },
 };
