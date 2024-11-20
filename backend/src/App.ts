@@ -2,6 +2,7 @@ import express from "express";
 import router from "./routes/Router";
 import userRouter from "./routes/UserRouter";
 import postRouter from "./routes/PostRouter";
+import commentRouter from "./routes/CommentRouter";
 
 // Initialize the app
 const app = express();
@@ -13,5 +14,6 @@ app.use(express.json());
 app.use("/hello-world", router);
 app.use("/api/users", userRouter);
 app.use("/api/posts", postRouter);
+app.use("/api/comments", commentRouter);
 
 export default app;

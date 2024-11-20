@@ -3,7 +3,7 @@ import { PostModel } from "../models/PostModel";
 import { LikeModel } from "../models/LikeModel";
 
 export const PostController = {
-  // Handle fetching recent posts
+  // Fetch recent posts
   getRecentPosts: async (req: Request, res: Response) => {
     const { currentUserId } = req.body; //TODO set user with authentication middleware
 
@@ -16,7 +16,7 @@ export const PostController = {
     }
   },
 
-  // Handle creating a new post
+  // Create a new post
   createPost: async (req: Request, res: Response) => {
     const { content, currentUserId } = req.body; //TODO set user with authentication middleware
 
