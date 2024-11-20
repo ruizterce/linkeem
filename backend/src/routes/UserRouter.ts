@@ -1,12 +1,21 @@
-import { RequestHandler, Router } from "express";
+import { Handler, RequestHandler, Router } from "express";
 import { UserController } from "../controllers/UserController";
 
 const userRouter = Router();
 
-// Route for getting a user's profile
+// Get a user's profile
 userRouter.get("/:id", UserController.getProfile as RequestHandler);
 
-// Route for creating a new user (e.g., during sign-up)
+// Create a new user
 userRouter.post("/register", UserController.register as RequestHandler);
+
+// Follow a user
+userRouter.post("/:userId/follow", UserController.followUser as RequestHandler);
+
+// Unfollow a user
+userRouter.delete(
+  "/:userId/follow",
+  UserController.unfollowUser as RequestHandler
+);
 
 export default userRouter;
