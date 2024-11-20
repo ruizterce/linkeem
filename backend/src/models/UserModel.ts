@@ -1,18 +1,24 @@
 import { PrismaClient } from "@prisma/client";
-
+import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 export const UserModel = {
   // Create a new user
-  create: async (data: {
-    email: string;
-    username: string;
-    password: string;
-    profilePicture?: string;
-  }) => {
+  create: async (
+    email: string,
+    username: string,
+    password: string,
+    profilePicture?: string
+  ) => {
+    const hashedPassword = await bcrypt.hash(password, 10);
     return await prisma.user.create({
-      data,
+      data: { email, username, password: hashedPassword },
     });
+  },
+
+  // Verify password
+  verifyPassword: async (password: string, hashedPassword: string) => {
+    return await bcrypt.compare(password, hashedPassword);
   },
 
   // Fetch user by ID
@@ -25,6 +31,16 @@ export const UserModel = {
         following: true,
       },
     });
+  },
+
+  // Find user by email
+  findByEmail: async (email: string) => {
+    return await prisma.user.findUnique({ where: { email } });
+  },
+
+  // Find user by username
+  findByUsername: async (username: string) => {
+    return await prisma.user.findUnique({ where: { username } });
   },
 
   // Fetch all users excluding those already followed

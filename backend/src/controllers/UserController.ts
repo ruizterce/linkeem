@@ -8,12 +8,12 @@ export const UserController = {
     const { email, username, password, profilePicture } = req.body;
 
     try {
-      const newUser = await UserModel.create({
+      const newUser = await UserModel.create(
         email,
         username,
         password,
-        profilePicture,
-      });
+        profilePicture
+      );
       return res.status(201).json(newUser);
     } catch (error) {
       console.error(error);
