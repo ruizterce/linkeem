@@ -3,7 +3,10 @@ import passport from "passport";
 import jwt from "jsonwebtoken";
 import { UserModel } from "../models/UserModel";
 
-const JWT_SECRET = process.env.JWT_SECRET || "a_secret_key";
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET is not defined in environment variables");
+}
 
 export const AuthController = {
   // Register a new user
@@ -20,9 +23,14 @@ export const AuthController = {
       }
 
       const newUser = await UserModel.create(email, username, password);
-      return res
-        .status(201)
-        .json({ message: "User registered successfully", user: newUser });
+      return res.status(201).json({
+        message: "User registered successfully",
+        user: {
+          email: newUser.email,
+          username: newUser.username,
+          id: newUser.id,
+        },
+      });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: "Error registering user" });
