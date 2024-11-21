@@ -9,17 +9,44 @@ import {
   IonHeader,
   IonToolbar,
   IonTitle,
+  useIonRouter,
+  useIonToast,
 } from "@ionic/react";
+import { login } from "../api/auth";
+import axios from "axios";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // Show toast notification
+  const [present] = useIonToast();
+  const showToast = (message: string, color: string) => {
+    present({
+      message,
+      duration: 2000,
+      color,
+    });
+  };
+  const router = useIonRouter();
 
-  // TODO
   const handleLogin = async () => {
-    // Call API to log in
-    console.log("Logging in with:", { email, password });
-    // Redirect to feed on success
+    try {
+      console.log("Logging in with:", { email, password });
+      const data = await login(email, password);
+      localStorage.setItem("token", data.token);
+      router.push("/feed", "forward");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const errorMessage =
+          error.response?.data?.message || "An error occurred";
+        console.error("Error logging in:", errorMessage);
+        showToast(errorMessage, "danger");
+      } else {
+        // For non-Axios errors
+        console.error("Unexpected error:", error);
+        showToast("An unexpected error occurred", "danger");
+      }
+    }
   };
 
   return (
