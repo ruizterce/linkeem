@@ -22,3 +22,10 @@ export const register = async (
   });
   return response.data;
 };
+
+export const verifyToken = async (token: string) => {
+  const response = await axios.get(`${API_BASE_URL}/auth/verify-token`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+};

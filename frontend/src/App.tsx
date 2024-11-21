@@ -1,5 +1,11 @@
 import { Redirect, Route } from "react-router-dom";
-import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
+import {
+  IonApp,
+  IonLoading,
+  IonRouterOutlet,
+  IonSpinner,
+  setupIonicReact,
+} from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 
 /* Core CSS required for Ionic components to work properly */
@@ -35,11 +41,42 @@ import TabMenu from "./components/TabMenu";
 import Feed from "./pages/Feed";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import { useEffect, useState } from "react";
+import { verifyToken } from "./api/auth";
 
 setupIonicReact();
 
 const App: React.FC = () => {
-  const isAuthenticated = false; // Replace with actual auth check
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // Verify the token in localStorage
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      verifyToken(token)
+        .then((response) => {
+          console.log("Token verified");
+          setIsAuthenticated(true);
+        })
+        .catch((error) => {
+          console.error("Token verification failed", error);
+          localStorage.removeItem("token");
+          setIsAuthenticated(false);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      setIsAuthenticated(false);
+      setIsLoading(false);
+    }
+  }, []);
+
+  if (isLoading) {
+    return <IonSpinner></IonSpinner>;
+  }
 
   return (
     <IonApp>
