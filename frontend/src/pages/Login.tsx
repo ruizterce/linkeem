@@ -63,7 +63,7 @@ const Login: React.FC = () => {
             type="email"
             value={email}
             placeholder="Enter your email"
-            onIonChange={(e) => setEmail(e.detail.value!)}
+            onIonInput={(e) => setEmail(e.detail.value!)}
           />
         </IonItem>
         <IonItem>
@@ -72,7 +72,7 @@ const Login: React.FC = () => {
             type="password"
             value={password}
             placeholder="Enter your password"
-            onIonChange={(e) => setPassword(e.detail.value!)}
+            onIonInput={(e) => setPassword(e.detail.value!)}
           />
         </IonItem>
         <IonButton expand="block" onClick={handleLogin}>

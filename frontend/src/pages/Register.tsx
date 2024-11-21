@@ -65,7 +65,7 @@ const Register: React.FC = () => {
             type="email"
             value={email}
             placeholder="Enter your email"
-            onIonChange={(e) => setEmail(e.detail.value!)}
+            onIonInput={(e) => setEmail(e.detail.value!)}
           />
         </IonItem>
         <IonItem>
@@ -74,7 +74,7 @@ const Register: React.FC = () => {
             type="text"
             value={username}
             placeholder="Enter your username"
-            onIonChange={(e) => setUsername(e.detail.value!)}
+            onIonInput={(e) => setUsername(e.detail.value!)}
           />
         </IonItem>
         <IonItem>
@@ -83,7 +83,7 @@ const Register: React.FC = () => {
             type="password"
             value={password}
             placeholder="Enter your password"
-            onIonChange={(e) => setPassword(e.detail.value!)}
+            onIonInput={(e) => setPassword(e.detail.value!)}
           />
         </IonItem>
         <IonButton expand="block" onClick={handleRegister}>
