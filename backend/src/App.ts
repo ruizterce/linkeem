@@ -1,6 +1,7 @@
 import express from "express";
 import passport from "passport";
 import "./config/passportConfig";
+import cors from "cors";
 import router from "./routes/Router";
 import userRouter from "./routes/UserRouter";
 import postRouter from "./routes/PostRouter";
@@ -13,6 +14,7 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(passport.initialize());
+app.use(cors());
 
 // Routes
 app.use("/hello-world", router);
