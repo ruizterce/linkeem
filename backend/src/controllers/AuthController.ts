@@ -76,4 +76,10 @@ export const AuthController = {
       return res.status(403).json({ message: "Invalid token" });
     }
   },
+
+  verifyToken: (req: Request, res: Response) => {
+    // If this route is hit and no errors are thrown by the middleware,
+    // it means the token is valid and we can return success.
+    res.status(200).json({ message: "Token is valid" });
+  },
 };

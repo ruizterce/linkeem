@@ -5,5 +5,10 @@ const AuthRouter = Router();
 
 AuthRouter.post("/register", AuthController.register as RequestHandler);
 AuthRouter.post("/login", AuthController.login as RequestHandler);
+AuthRouter.get(
+  "/verify-token",
+  AuthController.authenticateJWT as RequestHandler,
+  AuthController.verifyToken
+);
 
 export default AuthRouter;
