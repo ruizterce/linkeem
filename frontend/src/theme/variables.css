@@ -1,2 +1,65 @@
-/* For information on how to create your own theme, please see:
-http://ionicframework.com/docs/theming/ */
+/* src/theme/variables.css */
+
+/* Light theme colors */
+:root {
+  --primary: #00b5ad;
+  --secondary: #ff6f61;
+  --success: #64dd17;
+  --danger: #e53935;
+  --warning: #ffeb3b;
+  --info: #1e88e5;
+  --light: #f0f4f8;
+  --medium: #d1d8e0;
+  --dark: #333333;
+  --background: #ffffff;
+  --text: #2e2e2e;
+
+  /* Link Ionic's color variables to the custom ones */
+  --ion-color-primary: var(--primary);
+  --ion-color-secondary: var(--secondary);
+  --ion-color-success: var(--success);
+  --ion-color-danger: var(--danger);
+  --ion-color-warning: var(--warning);
+  --ion-color-info: var(--info);
+  --ion-color-light: var(--light);
+  --ion-color-medium: var(--medium);
+  --ion-color-dark: var(--dark);
+  --ion-color-background: var(--background);
+  --ion-color-text: var(--text);
+
+  --ion-toolbar-color: var(--light);
+  --ion-toolbar-background: var(--secondary);
+  --ion-tab-bar-color-selected: var(--secondary);
+}
+
+/* Dark theme colors */
+[data-theme="dark"] {
+  --primary: #00b5ad;
+  --secondary: #ff6f61;
+  --success: #64dd17;
+  --danger: #e53935;
+  --warning: #ffeb3b;
+  --info: #1e88e5;
+  --light: #2c2c2c;
+  --medium: #464646;
+  --dark: #ffffff;
+  --background: #121212;
+  --text: #e0e0e0;
+
+  /* Link Ionic's color variables to the custom ones */
+  --ion-color-primary: var(--primary);
+  --ion-color-secondary: var(--secondary);
+  --ion-color-success: var(--success);
+  --ion-color-danger: var(--danger);
+  --ion-color-warning: var(--warning);
+  --ion-color-info: var(--info);
+  --ion-color-light: var(--light);
+  --ion-color-medium: var(--medium);
+  --ion-color-dark: var(--dark);
+  --ion-color-background: var(--background);
+  --ion-color-text: var(--text);
+
+  --ion-toolbar-color: var(--light);
+  --ion-toolbar-background: var(--secondary);
+  --ion-tab-bar-color-selected: var(--secondary);
+}

@@ -37,6 +37,7 @@ import "@ionic/react/css/palettes/dark.system.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import "./styles/tailwind.css";
 import TabMenu from "./components/TabMenu";
 import Feed from "./pages/Feed";
 import Login from "./pages/Login";
