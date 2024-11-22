@@ -41,14 +41,32 @@ import TabMenu from "./components/TabMenu";
 import Feed from "./pages/Feed";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import { verifyToken } from "./api/auth";
 
 setupIonicReact();
 
+interface User {
+  username: string;
+  email: string;
+  profilePicture: string;
+  date: string;
+}
+
+interface AuthContextType {
+  user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+}
+
+export const AuthContext = createContext<AuthContextType>({
+  user: null,
+  setUser: () => {},
+});
+
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<User | null>(null);
 
   // Verify the token in localStorage
   useEffect(() => {
@@ -59,17 +77,25 @@ const App: React.FC = () => {
         .then((response) => {
           console.log("Token verified");
           setIsAuthenticated(true);
+          setUser({
+            username: response.user.username,
+            email: response.user.email,
+            profilePicture: response.user.profilePicture,
+            date: response.user.date,
+          });
         })
         .catch((error) => {
           console.error("Token verification failed", error);
           localStorage.removeItem("token");
           setIsAuthenticated(false);
+          setUser(null);
         })
         .finally(() => {
           setIsLoading(false);
         });
     } else {
       setIsAuthenticated(false);
+      setUser(null);
       setIsLoading(false);
     }
   }, []);
@@ -79,15 +105,17 @@ const App: React.FC = () => {
   }
 
   return (
-    <IonApp>
-      <IonReactRouter>
-        <IonRouterOutlet>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
-          {isAuthenticated ? <TabMenu /> : <Redirect to="/login" />}
-        </IonRouterOutlet>
-      </IonReactRouter>
-    </IonApp>
+    <AuthContext.Provider value={{ user, setUser }}>
+      <IonApp>
+        <IonReactRouter>
+          <IonRouterOutlet>
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
+            {isAuthenticated ? <TabMenu /> : <Redirect to="/login" />}
+          </IonRouterOutlet>
+        </IonReactRouter>
+      </IonApp>
+    </AuthContext.Provider>
   );
 };
 
