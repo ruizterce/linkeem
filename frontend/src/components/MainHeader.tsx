@@ -21,11 +21,12 @@ interface HeaderProps {
 }
 
 const MainHeader: React.FC<HeaderProps> = ({ title }) => {
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const router = useIonRouter();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    setUser(null);
     router.push("/login", "forward");
   };
 

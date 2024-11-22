@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   IonContent,
   IonPage,
@@ -12,10 +12,13 @@ import {
   useIonRouter,
   useIonToast,
 } from "@ionic/react";
+import { Redirect } from "react-router";
 import { login } from "../api/auth";
 import axios from "axios";
+import { AuthContext } from "../App";
 
 const Login: React.FC = () => {
+  const { user } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // Show toast notification
@@ -34,7 +37,7 @@ const Login: React.FC = () => {
       console.log("Logging in with:", { email, password });
       const data = await login(email, password);
       localStorage.setItem("token", data.token);
-      router.push("/feed", "forward");
+      window.location.href = "/feed";
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const errorMessage =
@@ -48,6 +51,11 @@ const Login: React.FC = () => {
       }
     }
   };
+
+  // Redirect if the user is already authenticated
+  if (user) {
+    return <Redirect to="/feed" />;
+  }
 
   return (
     <IonPage>

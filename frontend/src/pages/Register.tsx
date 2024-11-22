@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   IonContent,
   IonPage,
@@ -14,8 +14,11 @@ import {
 } from "@ionic/react";
 import { register } from "../api/auth";
 import axios from "axios";
+import { AuthContext } from "../App";
+import { Redirect } from "react-router-dom";
 
 const Register: React.FC = () => {
+  const { user } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -50,6 +53,11 @@ const Register: React.FC = () => {
       }
     }
   };
+
+  // Redirect if the user is already authenticated
+  if (user) {
+    return <Redirect to="/feed" />;
+  }
 
   return (
     <IonPage>
