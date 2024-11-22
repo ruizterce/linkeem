@@ -23,20 +23,42 @@ export const PostModel = {
   },
 
   // Fetch recent posts for the user and their followings
-  fetchRecentPosts: async (currentUserId: string) => {
+  fetchRecentPosts: async (
+    currentUserId: string,
+    skip: number,
+    take: number
+  ) => {
     return await prisma.post.findMany({
       where: {
         OR: [
           { authorId: currentUserId },
-          { author: { followers: { some: { followerId: currentUserId } } } },
+          { author: { following: { some: { followerId: currentUserId } } } },
         ],
       },
       include: {
-        author: true,
-        comments: true,
-        likes: true,
+        author: {
+          select: {
+            username: true,
+            profilePicture: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            content: true,
+            createdAt: true,
+            user: { select: { username: true } },
+          },
+        },
+        likes: {
+          select: {
+            userId: true,
+          },
+        },
       },
       orderBy: { createdAt: "desc" },
+      skip,
+      take,
     });
   },
 

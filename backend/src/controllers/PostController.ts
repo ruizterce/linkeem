@@ -5,13 +5,30 @@ import { LikeModel } from "../models/LikeModel";
 export const PostController = {
   // Fetch recent posts
   getRecentPosts: async (req: Request, res: Response) => {
-    const { currentUserId } = req.body; //TODO set user with authentication middleware
+    const currentUserId = req.user?.id;
+    console.log("Current User ID:", currentUserId);
+    const { page = "1", limit = "10" } = req.query;
+
+    const pageNumber = parseInt(page as string, 10);
+    const limitNumber = parseInt(limit as string, 10);
+
+    if (!currentUserId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    if (isNaN(pageNumber) || isNaN(limitNumber)) {
+      return res.status(400).json({ message: "Invalid pagination parameters" });
+    }
 
     try {
-      const posts = await PostModel.fetchRecentPosts(currentUserId);
+      const posts = await PostModel.fetchRecentPosts(
+        currentUserId,
+        (pageNumber - 1) * limitNumber,
+        limitNumber
+      );
       return res.json(posts);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching posts:", error);
       res.status(500).json({ message: "Error fetching posts" });
     }
   },

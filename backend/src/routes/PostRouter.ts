@@ -1,10 +1,15 @@
 import { RequestHandler, Router } from "express";
 import { PostController } from "../controllers/PostController";
+import { AuthController } from "../controllers/AuthController";
 
 const postRouter = Router();
 
 // Get recent posts (from user and followers)
-postRouter.get("/", PostController.getRecentPosts as RequestHandler);
+postRouter.get(
+  "/",
+  AuthController.authenticateJWT as RequestHandler,
+  PostController.getRecentPosts as RequestHandler
+);
 
 // Create a new post
 postRouter.post("/", PostController.createPost as RequestHandler);
