@@ -84,14 +84,7 @@ const App: React.FC = () => {
         <IonRouterOutlet>
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
-          {isAuthenticated ? (
-            <>
-              <Route exact path="/feed" component={Feed} />
-              <TabMenu />
-            </>
-          ) : (
-            <Redirect to="/login" />
-          )}
+          {isAuthenticated ? <TabMenu /> : <Redirect to="/login" />}
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>

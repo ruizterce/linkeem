@@ -6,15 +6,12 @@ import {
   IonToolbar,
   IonTitle,
 } from "@ionic/react";
+import MainHeader from "../components/MainHeader";
 
 const Feed: React.FC = () => {
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Feed</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <MainHeader title="Feed" />
       <IonContent className="ion-padding">
         {/* Display feed content */}
         Welcome to your feed!
