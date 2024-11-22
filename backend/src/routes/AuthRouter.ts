@@ -8,7 +8,7 @@ AuthRouter.post("/login", AuthController.login as RequestHandler);
 AuthRouter.get(
   "/verify-token",
   AuthController.authenticateJWT as RequestHandler,
-  AuthController.verifyToken
+  AuthController.verifyToken as RequestHandler
 );
 
 export default AuthRouter;

@@ -58,7 +58,7 @@ export const AuthController = {
     )(req, res, next);
   },
 
-  authenticateJWT: (req: Request, res: Response, next: NextFunction) => {
+  authenticateJWT: async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization?.split(" ")[1]; // Expect "Bearer <token>"
 
     if (!token) {
@@ -70,7 +70,20 @@ export const AuthController = {
         id: string;
         email: string;
       };
-      req.user = decoded; // Add user info to the request object
+      // Fetch the user from the database
+      const user = await UserModel.findById(decoded.id); // Adjust based on your model method
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      req.user = {
+        id: user.id,
+        email: user.email,
+        username: user.username,
+        profilePicture: user.profilePicture,
+        createdAt: user.createdAt,
+      }; // Add user info to the request object
+
       next();
     } catch (error) {
       return res.status(403).json({ message: "Invalid token" });
@@ -80,6 +93,21 @@ export const AuthController = {
   verifyToken: (req: Request, res: Response) => {
     // If this route is hit and no errors are thrown by the middleware,
     // it means the token is valid and we can return success.
-    res.status(200).json({ message: "Token is valid" });
+    if (!req.user) {
+      return res
+        .status(500)
+        .json({ message: "User information is not available" });
+    }
+    const user = req.user;
+
+    res.status(200).json({
+      message: "Token is valid",
+      user: {
+        username: user.username,
+        email: user.email,
+        profilePicture: user.profilePicture,
+        createdAt: user.createdAt,
+      },
+    });
   },
 };

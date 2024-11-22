@@ -25,6 +25,13 @@ export const UserModel = {
   findById: async (id: string) => {
     return await prisma.user.findUnique({
       where: { id },
+    });
+  },
+
+  // Fetch user by ID
+  findByIdExtended: async (id: string) => {
+    return await prisma.user.findUnique({
+      where: { id },
       include: {
         posts: true,
         followers: true,
