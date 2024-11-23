@@ -16,6 +16,7 @@ import { register } from "../api/auth";
 import axios from "axios";
 import { AuthContext } from "../App";
 import { Redirect } from "react-router-dom";
+import MainHeader from "../components/MainHeader";
 
 const Register: React.FC = () => {
   const { user } = useContext(AuthContext);
@@ -61,11 +62,7 @@ const Register: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Register</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <MainHeader title="Register" />
       <IonContent className="ion-padding">
         <IonItem>
           <IonLabel position="stacked">Email</IonLabel>

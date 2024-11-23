@@ -35,13 +35,17 @@ const MainHeader: React.FC<HeaderProps> = ({ title }) => {
       <IonToolbar>
         <IonButtons slot="start">
           <IonButton id="profile-button">
-            <IonIcon icon={personCircleOutline} slot="icon-only"></IonIcon>
+            <IonIcon
+              className="text-light"
+              icon={personCircleOutline}
+              slot="icon-only"
+            ></IonIcon>
           </IonButton>
           <IonPopover trigger="profile-button" dismissOnSelect={true}>
             <IonContent>
               <IonList>
                 <IonItem>
-                  <IonText>
+                  <IonText className="text-primary">
                     <b>{user?.username}</b>
                   </IonText>
                 </IonItem>
@@ -52,7 +56,9 @@ const MainHeader: React.FC<HeaderProps> = ({ title }) => {
             </IonContent>
           </IonPopover>
         </IonButtons>
-        <IonTitle>{title}</IonTitle>
+        <IonTitle className="text-light text-2xl font-extrabold">
+          {title}
+        </IonTitle>
       </IonToolbar>
     </IonHeader>
   );
