@@ -72,20 +72,38 @@ const Feed: React.FC = () => {
     <IonPage>
       <MainHeader title="Feed" />
       <IonContent className="ion-padding">
-        <IonList>
+        <IonList className="space-y-4" lines="none">
           {posts.map((post) => (
-            <IonItem key={post.id}>
-              <IonLabel>
-                <h1>{post.author.username}</h1>
-                <p>{post.content}</p>
-                <p>{post.likes.length} Likes</p>
-                {post.comments.map((comment) => (
-                  <p key={comment.id}>
-                    <b>{comment.user.username}</b>
-                    <br></br>
-                    <sub>{comment.content}</sub>
-                  </p>
-                ))}
+            <IonItem
+              key={post.id}
+              className="dark:bg-gray-800 border-2 border-solid border-gray-100 rounded-lg p-4"
+            >
+              <IonLabel className="text-primary dark:text-light">
+                <h1 className="font-semibold text-lg">
+                  {post.author.username}
+                </h1>
+                <p className="text-sm text-gray-600 dark:text-gray-300">
+                  {post.content}
+                </p>
+                <p className="text-sm text-secondary dark:text-light">
+                  {post.likes.length} Likes
+                </p>
+                <div className="mt-4 border-dotted border-t-2">
+                  <IonList className="space-y-4" lines="none">
+                    {post.comments.map((comment) => (
+                      <IonItem key={comment.id} className="mt-2 text-sm">
+                        <div>
+                          <b className="text-gray-500">
+                            {comment.user.username}
+                          </b>
+                          <p className="text-gray-500 dark:text-gray-400">
+                            {comment.content}
+                          </p>
+                        </div>
+                      </IonItem>
+                    ))}
+                  </IonList>
+                </div>
               </IonLabel>
             </IonItem>
           ))}
