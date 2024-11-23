@@ -21,6 +21,9 @@ export default {
         background: "var(--background)",
         text: "var(--text)",
       },
+      boxShadow: {
+        "t-md": "0px -4px 8px -6px rgba(0, 0, 0, 0.3)",
+      },
       fontFamily: {
         sans: ["Helvetica", "Arial", "sans-serif"],
       },

@@ -17,7 +17,7 @@ const TabMenu: React.FC = () => {
       <IonRouterOutlet>
         <Route exact path="/feed" component={Feed} />
       </IonRouterOutlet>
-      <IonTabBar slot="bottom">
+      <IonTabBar slot="bottom" className="shadow-t-md">
         <IonTabButton tab="feed" href="/feed">
           <IonIcon icon={home} />
           <IonLabel>Feed</IonLabel>
