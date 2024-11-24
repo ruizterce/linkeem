@@ -7,9 +7,17 @@ import {
   IonLabel,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
+  IonFab,
+  IonFabButton,
+  IonIcon,
+  IonRouterLink,
+  IonRouterOutlet,
 } from "@ionic/react";
 import MainHeader from "../components/MainHeader";
 import { fetchPosts } from "../api/post";
+import { add } from "ionicons/icons";
+import { Route } from "react-router";
+import PostForm from "./PostForm";
 
 interface Post {
   id: string;
@@ -71,7 +79,17 @@ const Feed: React.FC = () => {
   return (
     <IonPage>
       <MainHeader title="Feed" />
-      <IonContent className="ion-padding">
+      <IonContent className="ion-padding" fixedSlotPlacement="before">
+        <IonFab
+          horizontal="end"
+          vertical="bottom"
+          slot="fixed"
+          className="mb-2 mr-2 opacity-70 hover:opacity-100 active:opacity-100"
+        >
+          <IonFabButton routerLink="/post">
+            <IonIcon icon={add}></IonIcon>
+          </IonFabButton>
+        </IonFab>
         <IonList className="space-y-4" lines="none">
           {posts.map((post) => (
             <IonItem
