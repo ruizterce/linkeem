@@ -6,7 +6,6 @@ export const PostController = {
   // Fetch recent posts
   getRecentPosts: async (req: Request, res: Response) => {
     const currentUserId = req.user?.id;
-    console.log("Current User ID:", currentUserId);
     const { page = "1", limit = "10" } = req.query;
 
     const pageNumber = parseInt(page as string, 10);
@@ -35,7 +34,16 @@ export const PostController = {
 
   // Create a new post
   createPost: async (req: Request, res: Response) => {
-    const { content, currentUserId } = req.body; //TODO set user with authentication middleware
+    const currentUserId = req.user?.id;
+    const { content } = req.body;
+
+    if (!currentUserId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    if (content === "") {
+      return res.status(400).json({ message: "Invalid content; Empty Post" });
+    }
 
     try {
       const newPost = await PostModel.create({

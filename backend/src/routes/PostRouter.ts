@@ -12,7 +12,11 @@ postRouter.get(
 );
 
 // Create a new post
-postRouter.post("/", PostController.createPost as RequestHandler);
+postRouter.post(
+  "/",
+  AuthController.authenticateJWT as RequestHandler,
+  PostController.createPost as RequestHandler
+);
 
 // Update a post
 postRouter.put("/:postId", PostController.updatePost as RequestHandler);
