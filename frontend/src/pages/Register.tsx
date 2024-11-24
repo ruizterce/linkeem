@@ -6,15 +6,12 @@ import {
   IonInput,
   IonItem,
   IonLabel,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   useIonRouter,
   useIonToast,
 } from "@ionic/react";
 import { register } from "../api/auth";
 import axios from "axios";
-import { AuthContext } from "../App";
+import { AuthContext } from "../contexts/AuthContext";
 import { Redirect } from "react-router-dom";
 import MainHeader from "../components/MainHeader";
 

@@ -6,16 +6,13 @@ import {
   IonInput,
   IonItem,
   IonLabel,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   useIonRouter,
   useIonToast,
 } from "@ionic/react";
 import { Redirect } from "react-router";
 import { login } from "../api/auth";
 import axios from "axios";
-import { AuthContext } from "../App";
+import { AuthContext } from "../contexts/AuthContext";
 import MainHeader from "../components/MainHeader";
 
 const Login: React.FC = () => {

@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
-import { AuthContext } from "../App";
+import { AuthContext } from "../contexts/AuthContext";
+import { PostContext } from "../contexts/PostContext";
 import {
   IonButton,
   IonButtons,
@@ -10,6 +11,7 @@ import {
   IonPage,
   IonTextarea,
   IonToolbar,
+  useIonRouter,
   useIonToast,
 } from "@ionic/react";
 import { arrowBackOutline } from "ionicons/icons";
@@ -18,8 +20,10 @@ import { postPost } from "../api/post";
 
 const PostForm: React.FC = () => {
   const { user } = useContext(AuthContext);
+  const { triggerRefresh } = useContext(PostContext);
   const [postContent, setPostContent] = useState("");
   const [present] = useIonToast();
+  const router = useIonRouter();
 
   const showToast = (message: string, color: string) => {
     present({
@@ -32,6 +36,9 @@ const PostForm: React.FC = () => {
   const handlePost = async () => {
     try {
       const data = await postPost(postContent);
+      showToast("Post Created", "success");
+      triggerRefresh();
+      router.push("/feed", "back");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const errorMessage =
