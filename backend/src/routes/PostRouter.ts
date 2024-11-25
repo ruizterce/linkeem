@@ -4,6 +4,13 @@ import { AuthController } from "../controllers/AuthController";
 
 const postRouter = Router();
 
+// Get post by ID
+postRouter.get(
+  "/:postId",
+  AuthController.authenticateJWT as RequestHandler,
+  PostController.getPostById as RequestHandler
+);
+
 // Get recent posts (from user and followers)
 postRouter.get(
   "/",

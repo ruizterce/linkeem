@@ -32,6 +32,24 @@ export const PostController = {
     }
   },
 
+  // Fetch post by id
+  getPostById: async (req: Request, res: Response) => {
+    const currentUserId = req.user?.id;
+    const { postId } = req.params;
+
+    if (!currentUserId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    try {
+      const post = await PostModel.getPostById(postId);
+      return res.json(post);
+    } catch (error) {
+      console.error("Error fetching post:", error);
+      res.status(500).json({ message: "Error fetching post" });
+    }
+  },
+
   // Create a new post
   createPost: async (req: Request, res: Response) => {
     const currentUserId = req.user?.id;

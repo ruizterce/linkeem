@@ -15,9 +15,30 @@ export const PostModel = {
     return prisma.post.findUnique({
       where: { id: postId },
       include: {
-        author: true,
-        comments: true,
-        likes: true,
+        author: {
+          select: {
+            id: true,
+            username: true,
+            profilePicture: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            content: true,
+            createdAt: true,
+            user: {
+              select: { id: true, username: true, profilePicture: true },
+            },
+          },
+        },
+        likes: {
+          select: {
+            user: {
+              select: { id: true, username: true, profilePicture: true },
+            },
+          },
+        },
       },
     });
   },
