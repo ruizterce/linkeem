@@ -18,6 +18,21 @@ export const fetchPosts = async (page: number, limit: number) => {
   return response.data;
 };
 
+export const fetchPostById = async (postId: string) => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("User is not authenticated");
+  }
+
+  const response = await axios.get(`${API_BASE_URL}/posts/${postId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log(response.data);
+  return response.data;
+};
+
 export const postPost = async (content: string) => {
   const token = localStorage.getItem("token");
   if (!token) {

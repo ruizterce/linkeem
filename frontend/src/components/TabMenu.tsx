@@ -11,6 +11,7 @@ import { home, person } from "ionicons/icons";
 import { Route } from "react-router-dom";
 import Feed from "../pages/Feed";
 import PostForm from "../pages/PostForm";
+import PostDetail from "../pages/PostDetail";
 
 const TabMenu: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ const TabMenu: React.FC = () => {
       <IonRouterOutlet>
         <Route exact path="/feed" component={Feed} />
         <Route exact path="/post" component={PostForm} />
+        <Route exact path="/posts/:postId" component={PostDetail} />
       </IonRouterOutlet>
       <IonTabBar slot="bottom" className="shadow-t-md">
         <IonTabButton tab="feed" href="/feed">

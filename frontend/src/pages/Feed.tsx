@@ -10,6 +10,10 @@ import {
   IonFab,
   IonFabButton,
   IonIcon,
+  useIonRouter,
+  IonRippleEffect,
+  IonChip,
+  IonAvatar,
 } from "@ionic/react";
 import MainHeader from "../components/MainHeader";
 import { PostContext } from "../contexts/PostContext";
@@ -40,6 +44,7 @@ const Feed: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
+  const router = useIonRouter();
 
   useEffect(() => {
     loadMorePosts(true);
@@ -100,42 +105,38 @@ const Feed: React.FC = () => {
             <IonIcon icon={add}></IonIcon>
           </IonFabButton>
         </IonFab>
-        <IonList className="space-y-4" lines="none">
-          {posts.map((post) => (
-            <IonItem
-              key={post.id}
-              className="dark:bg-gray-800 border-2 border-solid border-gray-100 rounded-lg p-4"
-            >
-              <IonLabel className="text-primary dark:text-light">
-                <h1 className="font-semibold text-lg">
+
+        {posts.map((post) => (
+          <div
+            key={post.id}
+            className="ion-activatable ripple-parent rounded-lg relative dark:bg-gray-800 border-2 border-solid border-gray-100 py-4 px-6 mb-4 hover:border-medium"
+            onClick={() => {
+              router.push(`/posts/${post.id}`);
+            }}
+          >
+            <IonLabel className="text-primary dark:text-light">
+              <div className="flex ion-align-items-center mb-2">
+                <IonAvatar className="w-6 h-6">
+                  <img src={post.author.profilePicture} alt="" />
+                </IonAvatar>
+                <h1 className="font-semibold text-xl ml-2">
                   {post.author.username}
                 </h1>
-                <p className="text-sm text-gray-600 dark:text-gray-300">
-                  {post.content}
-                </p>
-                <p className="text-sm text-secondary dark:text-light">
-                  {post.likes.length} Likes
-                </p>
-                <div className="mt-4 border-dotted border-t-2">
-                  <IonList className="space-y-4" lines="none">
-                    {post.comments.map((comment) => (
-                      <IonItem key={comment.id} className="mt-2 text-sm">
-                        <div>
-                          <b className="text-gray-500">
-                            {comment.user.username}
-                          </b>
-                          <p className="text-gray-500 dark:text-gray-400">
-                            {comment.content}
-                          </p>
-                        </div>
-                      </IonItem>
-                    ))}
-                  </IonList>
-                </div>
-              </IonLabel>
-            </IonItem>
-          ))}
-        </IonList>
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                {post.content}
+              </p>
+              <span className="text-sm text-primary dark:text-light">
+                {post.comments.length} Comments
+              </span>
+              <span className="text-medium"> | </span>
+              <span className="text-sm text-secondary dark:text-light">
+                {post.likes.length} Likes
+              </span>
+            </IonLabel>
+            <IonRippleEffect className="rounded-md"></IonRippleEffect>
+          </div>
+        ))}
 
         <IonInfiniteScroll
           onIonInfinite={(e) => {
