@@ -123,13 +123,25 @@ const Feed: React.FC = () => {
               <p className="text-sm text-gray-600 dark:text-gray-300">
                 {post.content}
               </p>
-              <span className="text-sm text-primary dark:text-light">
-                {post.comments.length} Comments
-              </span>
-              <span className="text-medium"> | </span>
-              <span className="text-sm text-secondary dark:text-light">
-                {post.likes.length} Likes
-              </span>
+              <div className="w-full flex justify-between items-center">
+                <div>
+                  <span className="text-sm text-primary dark:text-light">
+                    {post.comments.length} Comments
+                  </span>
+                  <span className="text-medium"> | </span>
+                  <span className="text-sm text-secondary dark:text-light">
+                    {post.likes.length} Likes
+                  </span>
+                </div>
+
+                <sub className="text-medium">
+                  {new Date(post.createdAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </sub>
+              </div>
             </IonLabel>
             <IonRippleEffect className="rounded-md"></IonRippleEffect>
           </div>

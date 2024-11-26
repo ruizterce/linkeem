@@ -153,6 +153,16 @@ const PostDetail: React.FC = () => {
             <p className="text-xl text-gray-600 dark:text-gray-300">
               {post.content}
             </p>
+            <sub className="text-medium">
+              {new Date(post.createdAt).toLocaleDateString("en-US", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+              })}
+            </sub>
             <div className="flex mt-4 ion-align-items-center gap-2">
               <div className="flex flex-col ion-justify-content-center">
                 <IonButton
@@ -174,7 +184,7 @@ const PostDetail: React.FC = () => {
               <IonList className="space-y-4" lines="none">
                 {post.comments.map((comment) => (
                   <IonItem key={comment.id} className="mt-2 text-sm">
-                    <div>
+                    <div className="mb-2">
                       <div className="flex ion-align-items-center mb-2">
                         <IonAvatar className="w-6 h-6">
                           <img src={comment.user.profilePicture} alt="" />
@@ -186,6 +196,19 @@ const PostDetail: React.FC = () => {
                       <p className="text-gray-600 dark:text-gray-300">
                         {comment.content}
                       </p>
+                      <sub className="text-medium">
+                        {new Date(comment.createdAt).toLocaleDateString(
+                          "en-US",
+                          {
+                            weekday: "long",
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                            hour: "numeric",
+                            minute: "numeric",
+                          }
+                        )}
+                      </sub>
                     </div>
                   </IonItem>
                 ))}
