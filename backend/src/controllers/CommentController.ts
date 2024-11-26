@@ -14,6 +14,12 @@ export const CommentController = {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
+    if (content === "") {
+      return res
+        .status(400)
+        .json({ message: "Invalid content; Empty Comment" });
+    }
+
     try {
       const newComment = await CommentModel.createComment(
         content,
