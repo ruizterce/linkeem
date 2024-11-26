@@ -26,15 +26,31 @@ postRouter.post(
 );
 
 // Update a post
-postRouter.put("/:postId", PostController.updatePost as RequestHandler);
+postRouter.put(
+  "/:postId",
+  AuthController.authenticateJWT as RequestHandler,
+  PostController.updatePost as RequestHandler
+);
 
 // Delete a post
-postRouter.delete("/:postId", PostController.deletePost as RequestHandler);
+postRouter.delete(
+  "/:postId",
+  AuthController.authenticateJWT as RequestHandler,
+  PostController.deletePost as RequestHandler
+);
 
 // Like a post
-postRouter.post("/:postId/like", PostController.likePost as RequestHandler);
+postRouter.post(
+  "/:postId/like",
+  AuthController.authenticateJWT as RequestHandler,
+  PostController.likePost as RequestHandler
+);
 
 // Unlike a post
-postRouter.delete("/:postId/like", PostController.unlikePost as RequestHandler);
+postRouter.delete(
+  "/:postId/like",
+  AuthController.authenticateJWT as RequestHandler,
+  PostController.unlikePost as RequestHandler
+);
 
 export default postRouter;

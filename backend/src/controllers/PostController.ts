@@ -78,8 +78,12 @@ export const PostController = {
   // Update a post
   updatePost: async (req: Request, res: Response): Promise<Response | void> => {
     const { postId } = req.params;
-    const { content, currentUserId } = req.body; //TODO set user with authentication middleware
+    const { content } = req.body;
+    const currentUserId = req.user?.id;
 
+    if (!currentUserId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
     try {
       // Fetch the post to ensure the user is the author
       const post = await PostModel.getPostById(postId);
@@ -106,7 +110,11 @@ export const PostController = {
   // Delete a post
   deletePost: async (req: Request, res: Response): Promise<Response | void> => {
     const { postId } = req.params;
-    const { currentUserId } = req.body; //TODO set user with authentication middleware
+    const currentUserId = req.user?.id;
+
+    if (!currentUserId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
 
     try {
       // Fetch the post to ensure the user is the author
@@ -134,7 +142,11 @@ export const PostController = {
   // Like a post
   likePost: async (req: Request, res: Response): Promise<Response | void> => {
     const { postId } = req.params;
-    const { currentUserId } = req.body; //TODO set user with authentication middleware
+    const currentUserId = req.user?.id;
+
+    if (!currentUserId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
 
     try {
       const hasLiked = await LikeModel.hasLikedPost(postId, currentUserId);
@@ -155,8 +167,11 @@ export const PostController = {
   // Unlike a post
   unlikePost: async (req: Request, res: Response): Promise<Response | void> => {
     const { postId } = req.params;
-    const { currentUserId } = req.body; //TODO set user with authentication middleware
+    const currentUserId = req.user?.id;
 
+    if (!currentUserId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
     try {
       const hasLiked = await LikeModel.hasLikedPost(postId, currentUserId);
       if (!hasLiked) {
