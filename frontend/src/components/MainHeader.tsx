@@ -68,7 +68,7 @@ const MainHeader: React.FC<HeaderProps> = ({ title, returnUrl }) => {
   }, []);
 
   return (
-    <IonHeader className="rounded-b-2xl">
+    <IonHeader className="ion-no-border bg-background">
       <IonToolbar className="rounded-b-2xl shadow-md flex items-center justify-between">
         {returnUrl && (
           <IonButtons slot="start">

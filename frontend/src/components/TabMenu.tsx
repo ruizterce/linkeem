@@ -15,7 +15,7 @@ import PostDetail from "../pages/PostDetail";
 
 const TabMenu: React.FC = () => {
   return (
-    <IonTabs>
+    <IonTabs className="bg-background">
       <IonRouterOutlet>
         <Route exact path="/feed" component={Feed} />
         <Route exact path="/post" component={PostForm} />

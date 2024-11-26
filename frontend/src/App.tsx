@@ -37,6 +37,7 @@ import "@ionic/react/css/palettes/dark.system.css";
 /* Theme variables */
 import "./theme/variables.css";
 import "./styles/tailwind.css";
+import "./styles/global.css";
 
 import { AuthProvider, AuthContext } from "./contexts/AuthContext";
 import { PostProvider } from "./contexts/PostContext";
