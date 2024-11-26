@@ -26,6 +26,7 @@ const MainHeader: React.FC<HeaderProps> = ({ title, returnUrl }) => {
   const { user, setUser } = useContext(AuthContext);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [popoverEvent, setPopoverEvent] = useState<MouseEvent | null>(null);
+  const [popoverOffsetX, setPopoverOffsetX] = useState(0);
 
   const router = useIonRouter();
 
@@ -47,6 +48,23 @@ const MainHeader: React.FC<HeaderProps> = ({ title, returnUrl }) => {
 
   React.useEffect(() => {
     handlePageChange();
+  }, []);
+
+  // Calculate difference between Ionic app width and browser window width to
+  // compensate IonPopover positioning issue when setting max-width to Ionic App
+  const updatePopoverOffset = () => {
+    const appWidth = document.querySelector(".ion-page")?.clientWidth || 0;
+    const windowWidth = window.innerWidth;
+    const offset = (windowWidth - appWidth) / 2;
+    setPopoverOffsetX(offset > 0 ? offset : 0);
+  };
+
+  React.useEffect(() => {
+    updatePopoverOffset();
+    window.addEventListener("resize", updatePopoverOffset);
+    return () => {
+      window.removeEventListener("resize", updatePopoverOffset);
+    };
   }, []);
 
   return (
@@ -83,6 +101,11 @@ const MainHeader: React.FC<HeaderProps> = ({ title, returnUrl }) => {
               isOpen={isPopoverOpen}
               onDidDismiss={() => setIsPopoverOpen(false)}
               event={popoverEvent}
+              side="bottom"
+              alignment="end"
+              style={{
+                "--offset-x": `-${popoverOffsetX}px`,
+              }}
             >
               <IonContent>
                 <IonList>
