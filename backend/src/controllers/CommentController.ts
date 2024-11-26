@@ -8,7 +8,11 @@ export const CommentController = {
     res: Response
   ): Promise<Response | void> => {
     const { content, postId } = req.body;
-    const { currentUserId } = req.body; //TODO set user with authentication middleware
+    const currentUserId = req.user?.id;
+
+    if (!currentUserId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
 
     try {
       const newComment = await CommentModel.createComment(
@@ -29,7 +33,11 @@ export const CommentController = {
     res: Response
   ): Promise<Response | void> => {
     const { commentId } = req.params;
-    const { currentUserId } = req.body; //TODO set user with authentication middleware
+    const currentUserId = req.user?.id;
+
+    if (!currentUserId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
 
     try {
       // Fetch the comment to verify ownership
