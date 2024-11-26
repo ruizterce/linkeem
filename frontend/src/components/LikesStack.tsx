@@ -1,5 +1,5 @@
 import { IonChip, IonAvatar, IonLabel } from "@ionic/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Like {
   user: {
@@ -16,13 +16,15 @@ interface Post {
 const LikesStack: React.FC<{ post: Post }> = ({ post }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  useEffect(() => {
+    setIsExpanded(false);
+  }, [post.likes]);
+
   return (
     <div
       className={`relative flex ${
         isExpanded ? "flex-wrap" : "items-center"
       } space-x-1`}
-      onMouseEnter={() => setIsExpanded(true)} // Expand on hover
-      onMouseLeave={() => setIsExpanded(false)} // Collapse on hover out
       onClick={() => setIsExpanded(!isExpanded)} // Toggle on click
     >
       {post.likes.map((like, index) => (
