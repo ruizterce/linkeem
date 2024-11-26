@@ -11,11 +11,13 @@ import {
   IonPage,
   IonToolbar,
 } from "@ionic/react";
-import React, { useEffect, useState } from "react";
-import { fetchPostById } from "../api/post";
+import React, { useContext, useEffect, useState } from "react";
+import { fetchPostById, likePost, unlikePost } from "../api/post";
 import { useParams } from "react-router";
-import { arrowBackOutline, closeCircle, heartOutline } from "ionicons/icons";
+import { arrowBackOutline, heartOutline, heartSharp } from "ionicons/icons";
 import LikesStack from "../components/LikesStack";
+import { PostContext } from "../contexts/PostContext";
+import { AuthContext } from "../contexts/AuthContext";
 
 interface Post {
   id: string;
@@ -50,7 +52,9 @@ interface PostDetailParams {
 }
 
 const PostDetail: React.FC = () => {
+  const { user } = useContext(AuthContext);
   const { postId } = useParams<PostDetailParams>();
+  const { triggerRefresh } = useContext(PostContext);
   const [post, setPost] = useState<Post>();
 
   const loadPost = async (postId: string) => {
@@ -62,9 +66,28 @@ const PostDetail: React.FC = () => {
     loadPost(postId);
   }, []);
 
+  const handleLike = async () => {
+    const hasLiked = post?.likes.some(
+      (like) => like.user.username === user?.username
+    );
+
+    if (hasLiked) {
+      await unlikePost(postId);
+    } else {
+      await likePost(postId);
+    }
+
+    loadPost(postId);
+    triggerRefresh();
+  };
+
   if (!post) {
     return <div>No post</div>;
   }
+
+  const hasLiked = post.likes.some(
+    (like) => like.user.username === user?.username
+  );
 
   return (
     <IonPage>
@@ -93,8 +116,16 @@ const PostDetail: React.FC = () => {
             </p>
             <div className="flex mt-4 ion-align-items-center gap-2">
               <div className="flex flex-col ion-justify-content-center">
-                <IonButton shape="round" color="secondary" size="default">
-                  <IonIcon icon={heartOutline} slot="icon-only"></IonIcon>
+                <IonButton
+                  onClick={handleLike}
+                  shape="round"
+                  color={hasLiked ? "danger" : "secondary"}
+                  size="default"
+                >
+                  <IonIcon
+                    icon={hasLiked ? heartSharp : heartOutline}
+                    slot="icon-only"
+                  ></IonIcon>
                 </IonButton>
               </div>
               <div className="text-xl text-secondary">{post.likes.length}</div>
