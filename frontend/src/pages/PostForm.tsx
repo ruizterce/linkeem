@@ -3,20 +3,15 @@ import { AuthContext } from "../contexts/AuthContext";
 import { PostContext } from "../contexts/PostContext";
 import {
   IonButton,
-  IonButtons,
   IonContent,
-  IonHeader,
-  IonIcon,
-  IonItem,
   IonPage,
   IonTextarea,
-  IonToolbar,
   useIonRouter,
   useIonToast,
 } from "@ionic/react";
-import { arrowBackOutline } from "ionicons/icons";
 import axios from "axios";
 import { postPost } from "../api/post";
+import MainHeader from "../components/MainHeader";
 
 const PostForm: React.FC = () => {
   const { user } = useContext(AuthContext);
@@ -56,27 +51,9 @@ const PostForm: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader className="rounded-b-2xl">
-        <IonToolbar className="rounded-b-2xl shadow-md">
-          <IonButtons slot="start">
-            <IonButton routerLink="/feed">
-              <IonIcon icon={arrowBackOutline} slot="icon-only"></IonIcon>
-            </IonButton>
-          </IonButtons>
-          <IonButtons slot="end" className="mr-4">
-            <IonButton
-              shape="round"
-              fill="outline"
-              size="small"
-              onClick={handlePost}
-            >
-              <span className="font-extrabold">POST</span>
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+      <MainHeader title={"New Post"} returnUrl="/feed" />
       <IonContent className="ion-padding">
-        <IonItem lines="none">
+        <div className="w-full flex flex-col ion-align-items-center">
           <IonTextarea
             placeholder="What's on your mind?"
             value={postContent}
@@ -86,11 +63,15 @@ const PostForm: React.FC = () => {
             counter={true}
             maxlength={420}
             autoGrow
+            className="w-full"
           >
             <span slot="start">"</span>
             <span slot="end">"</span>
           </IonTextarea>
-        </IonItem>
+          <IonButton onClick={handlePost} shape="round">
+            Post
+          </IonButton>
+        </div>
       </IonContent>
     </IonPage>
   );

@@ -30,6 +30,7 @@ import LikesStack from "../components/LikesStack";
 import { PostContext } from "../contexts/PostContext";
 import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
+import MainHeader from "../components/MainHeader";
 
 interface Post {
   id: string;
@@ -137,19 +138,7 @@ const PostDetail: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader className="rounded-b-2xl">
-        <IonToolbar className="rounded-b-2xl shadow-md">
-          <IonButtons slot="start">
-            <IonButton routerLink="/feed">
-              <IonIcon
-                icon={arrowBackOutline}
-                slot="icon-only"
-                className="ion-activatable ripple-parent rounded-rectangle"
-              ></IonIcon>
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+      <MainHeader title={"Post Details"} returnUrl="/feed" />
       <IonContent>
         <div key={post.id} className="dark:bg-gray-800 p-4">
           <IonLabel className="text-primary dark:text-light">
