@@ -46,8 +46,8 @@ async function main() {
     });
     posts.push(post);
 
-    // Add 5 random comments to each post
-    for (let j = 0; j < 5; j++) {
+    // Add random comments to each post
+    for (let j = 0; j < Math.floor(Math.random() * 10); j++) {
       await prisma.comment.create({
         data: {
           content: faker.lorem.sentence(),
@@ -57,8 +57,8 @@ async function main() {
       });
     }
 
-    // Add 5 random likes to each post, check if like already exists
-    for (let j = 0; j < 5; j++) {
+    // Add random likes to each post, check if like already exists
+    for (let j = 0; j < Math.floor(Math.random() * 30); j++) {
       const randomUserId = users[Math.floor(Math.random() * users.length)].id;
 
       // Check if the user has already liked the post
@@ -83,7 +83,7 @@ async function main() {
   }
 
   // Make testUser follows and is followed by a few users
-  const usersToFollow = users.slice(0, 10); // Select the first 5 users
+  const usersToFollow = users.slice(0, 10); // Select the first users
   for (const user of usersToFollow) {
     await prisma.follow.create({
       data: {
