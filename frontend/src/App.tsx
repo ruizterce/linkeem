@@ -1,7 +1,6 @@
 import { Redirect, Route } from "react-router-dom";
 import {
   IonApp,
-  IonLoading,
   IonRouterOutlet,
   IonSpinner,
   setupIonicReact,
@@ -56,7 +55,7 @@ const App: React.FC = () => {
             <IonSpinner />
           ) : (
             <PostProvider>
-              <IonApp>
+              <IonApp className="max-w-screen-xl mx-auto p-4">
                 <IonReactRouter>
                   <IonRouterOutlet>
                     <Route exact path="/login" component={Login} />

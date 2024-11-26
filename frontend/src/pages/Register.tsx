@@ -27,6 +27,7 @@ const Register: React.FC = () => {
       message,
       duration: 2000,
       color,
+      position: "middle",
     });
   };
 
@@ -61,39 +62,57 @@ const Register: React.FC = () => {
     <IonPage>
       <MainHeader title="Register" />
       <IonContent className="ion-padding">
-        <IonItem>
-          <IonLabel position="stacked">Email</IonLabel>
-          <IonInput
-            type="email"
-            value={email}
-            placeholder="Enter your email"
-            onIonInput={(e) => setEmail(e.detail.value!)}
-          />
-        </IonItem>
-        <IonItem>
-          <IonLabel position="stacked">Username</IonLabel>
-          <IonInput
-            type="text"
-            value={username}
-            placeholder="Enter your username"
-            onIonInput={(e) => setUsername(e.detail.value!)}
-          />
-        </IonItem>
-        <IonItem>
-          <IonLabel position="stacked">Password</IonLabel>
-          <IonInput
-            type="password"
-            value={password}
-            placeholder="Enter your password"
-            onIonInput={(e) => setPassword(e.detail.value!)}
-          />
-        </IonItem>
-        <IonButton expand="block" onClick={handleRegister}>
-          Register
-        </IonButton>
-        <IonButton expand="block" color="light" routerLink="/login">
-          Login
-        </IonButton>
+        <div className="w-full flex flex-col ion-align-items-center">
+          <div className="w-full max-w-md">
+            <IonItem>
+              <IonInput
+                type="email"
+                label="Email"
+                labelPlacement="floating"
+                value={email}
+                placeholder="Enter your email"
+                onIonInput={(e) => setEmail(e.detail.value!)}
+              />
+            </IonItem>
+            <IonItem>
+              <IonInput
+                type="text"
+                label="Username"
+                labelPlacement="floating"
+                value={username}
+                placeholder="Enter your username"
+                onIonInput={(e) => setUsername(e.detail.value!)}
+              />
+            </IonItem>
+            <IonItem>
+              <IonInput
+                type="password"
+                label="Password"
+                labelPlacement="floating"
+                value={password}
+                placeholder="Enter your password"
+                onIonInput={(e) => setPassword(e.detail.value!)}
+              />
+            </IonItem>
+            <IonButton
+              expand="block"
+              shape="round"
+              onClick={handleRegister}
+              className="m-4"
+            >
+              Register
+            </IonButton>
+            <IonButton
+              expand="block"
+              shape="round"
+              color="light"
+              routerLink="/login"
+              className="m-4"
+            >
+              Login
+            </IonButton>
+          </div>
+        </div>
       </IonContent>
     </IonPage>
   );

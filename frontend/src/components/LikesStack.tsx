@@ -18,14 +18,14 @@ const LikesStack: React.FC<{ post: Post }> = ({ post }) => {
 
   useEffect(() => {
     setIsExpanded(false);
-  }, [post.likes]);
+  }, []);
 
   return (
     <div
       className={`relative flex ${
         isExpanded ? "flex-wrap" : "items-center"
       } space-x-1`}
-      onClick={() => setIsExpanded(!isExpanded)} // Toggle on click
+      onClick={() => setIsExpanded(!isExpanded)}
     >
       {post.likes.map((like, index) => (
         <IonChip

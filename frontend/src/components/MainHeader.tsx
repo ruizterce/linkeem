@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import {
+  IonAvatar,
   IonButton,
   IonButtons,
   IonContent,
   IonHeader,
-  IonIcon,
   IonItem,
   IonList,
   IonPopover,
@@ -14,7 +14,6 @@ import {
   IonToolbar,
   useIonRouter,
 } from "@ionic/react";
-import { personCircleOutline } from "ionicons/icons";
 
 interface HeaderProps {
   title: string;
@@ -31,31 +30,37 @@ const MainHeader: React.FC<HeaderProps> = ({ title }) => {
   };
 
   return (
-    <IonHeader>
-      <IonToolbar>
-        <IonButtons slot="start">
-          <IonButton id="profile-button">
-            <IonIcon
-              className="text-light"
-              icon={personCircleOutline}
-              slot="icon-only"
-            ></IonIcon>
-          </IonButton>
-          <IonPopover trigger="profile-button" dismissOnSelect={true}>
-            <IonContent>
-              <IonList>
-                <IonItem>
-                  <IonText className="text-primary">
-                    <b>{user?.username}</b>
-                  </IonText>
-                </IonItem>
-                <IonItem button={true} detail={false} onClick={handleLogout}>
-                  Log out
-                </IonItem>
-              </IonList>
-            </IonContent>
-          </IonPopover>
-        </IonButtons>
+    <IonHeader className="rounded-b-2xl">
+      <IonToolbar className="rounded-b-2xl shadow-md">
+        {user && (
+          <IonButtons slot="start">
+            <IonButton
+              id="profile-button"
+              className="ion-activatable ripple-parent rounded-rectangle"
+            >
+              <IonAvatar
+                style={{ height: "30px", width: "30px" }}
+                className="border-2 border-solid border-medium"
+              >
+                <img src={user?.profilePicture} alt={user?.username} />
+              </IonAvatar>
+            </IonButton>
+            <IonPopover trigger="profile-button" dismissOnSelect={true}>
+              <IonContent>
+                <IonList>
+                  <IonItem>
+                    <IonText className="text-primary">
+                      <b>{user?.username}</b>
+                    </IonText>
+                  </IonItem>
+                  <IonItem button={true} detail={false} onClick={handleLogout}>
+                    Log out
+                  </IonItem>
+                </IonList>
+              </IonContent>
+            </IonPopover>
+          </IonButtons>
+        )}
         <IonTitle className="text-light text-2xl font-extrabold">
           {title}
         </IonTitle>

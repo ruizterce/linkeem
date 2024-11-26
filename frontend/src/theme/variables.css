@@ -30,6 +30,29 @@
   --ion-toolbar-color: var(--light);
   --ion-toolbar-background: var(--secondary);
   --ion-tab-bar-color-selected: var(--secondary);
+
+  ion-button {
+    --color: var(--light);
+    --color-activated: var(--medium);
+    --color-hover: var(--light);
+    --color-focused: var(--light);
+
+    --background: var(--secondary);
+    --background-hover: var(--medium);
+    --background-focused: var(--medium);
+  }
+
+  ion-fab-button {
+    --color: var(--light);
+    --color-activated: var(--primary);
+    --color-hover: var(--light);
+    --color-focused: var(--light);
+
+    --background: var(--primary);
+    --background-activated: var(--light);
+    --background-hover: var(--medium);
+    --background-focused: var(--medium);
+  }
 }
 
 /* Dark theme colors */
@@ -62,4 +85,27 @@
   --ion-toolbar-color: var(--light);
   --ion-toolbar-background: var(--secondary);
   --ion-tab-bar-color-selected: var(--secondary);
+
+  ion-fab-button {
+    --color: var(--light);
+    --color-activated: var(--primary);
+    --color-hover: var(--light);
+    --color-focused: var(--light);
+
+    --background: var(--primary);
+    --background-activated: var(--light);
+    --background-hover: var(--medium);
+    --background-focused: var(--medium);
+  }
+
+  ion-button {
+    --color: var(--light);
+    --color-activated: var(--medium);
+    --color-hover: var(--light);
+    --color-focused: var(--light);
+
+    --background: var(--secondary);
+    --background-hover: var(--medium);
+    --background-focused: var(--medium);
+  }
 }

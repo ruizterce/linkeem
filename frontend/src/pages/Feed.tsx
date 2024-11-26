@@ -2,8 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import {
   IonContent,
   IonPage,
-  IonList,
-  IonItem,
   IonLabel,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
@@ -12,13 +10,12 @@ import {
   IonIcon,
   useIonRouter,
   IonRippleEffect,
-  IonChip,
   IonAvatar,
 } from "@ionic/react";
 import MainHeader from "../components/MainHeader";
 import { PostContext } from "../contexts/PostContext";
 import { fetchPosts } from "../api/post";
-import { add } from "ionicons/icons";
+import { chatbubbleOutline } from "ionicons/icons";
 
 interface Post {
   id: string;
@@ -102,7 +99,7 @@ const Feed: React.FC = () => {
           className="mb-2 mr-2 opacity-70 hover:opacity-100 active:opacity-100"
         >
           <IonFabButton routerLink="/post">
-            <IonIcon icon={add}></IonIcon>
+            <IonIcon icon={chatbubbleOutline}></IonIcon>
           </IonFabButton>
         </IonFab>
 

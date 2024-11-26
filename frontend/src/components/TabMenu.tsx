@@ -21,7 +21,7 @@ const TabMenu: React.FC = () => {
         <Route exact path="/post" component={PostForm} />
         <Route exact path="/posts/:postId" component={PostDetail} />
       </IonRouterOutlet>
-      <IonTabBar slot="bottom" className="shadow-t-md">
+      <IonTabBar slot="bottom" className="rounded-t-2xl shadow-t-md">
         <IonTabButton tab="feed" href="/feed">
           <IonIcon icon={home} />
           <IonLabel>Feed</IonLabel>

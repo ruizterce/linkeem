@@ -77,6 +77,7 @@ const PostDetail: React.FC = () => {
       message,
       duration: 2000,
       color,
+      position: "middle",
     });
   };
 
@@ -136,11 +137,15 @@ const PostDetail: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
+      <IonHeader className="rounded-b-2xl">
+        <IonToolbar className="rounded-b-2xl shadow-md">
           <IonButtons slot="start">
             <IonButton routerLink="/feed">
-              <IonIcon icon={arrowBackOutline} slot="icon-only"></IonIcon>
+              <IonIcon
+                icon={arrowBackOutline}
+                slot="icon-only"
+                className="ion-activatable ripple-parent rounded-rectangle"
+              ></IonIcon>
             </IonButton>
           </IonButtons>
         </IonToolbar>
@@ -164,7 +169,7 @@ const PostDetail: React.FC = () => {
                 <IonButton
                   onClick={handleLike}
                   shape="round"
-                  color={hasLiked ? "danger" : "secondary"}
+                  color={hasLiked ? "danger" : ""}
                   size="default"
                 >
                   <IonIcon
@@ -231,7 +236,7 @@ const PostDetail: React.FC = () => {
               maxlength={360}
               autoGrow
             ></IonTextarea>
-            <IonButton onClick={handleComment} shape="round" color="secondary">
+            <IonButton onClick={handleComment} shape="round">
               Comment
             </IonButton>
           </div>

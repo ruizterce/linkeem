@@ -30,6 +30,7 @@ const PostForm: React.FC = () => {
       message,
       duration: 2000,
       color,
+      position: "middle",
     });
   };
 
@@ -55,15 +56,20 @@ const PostForm: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
+      <IonHeader className="rounded-b-2xl">
+        <IonToolbar className="rounded-b-2xl shadow-md">
           <IonButtons slot="start">
             <IonButton routerLink="/feed">
               <IonIcon icon={arrowBackOutline} slot="icon-only"></IonIcon>
             </IonButton>
           </IonButtons>
           <IonButtons slot="end" className="mr-4">
-            <IonButton shape="round" fill="outline" onClick={handlePost}>
+            <IonButton
+              shape="round"
+              fill="outline"
+              size="small"
+              onClick={handlePost}
+            >
               <span className="font-extrabold">POST</span>
             </IonButton>
           </IonButtons>

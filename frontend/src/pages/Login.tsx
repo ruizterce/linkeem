@@ -5,7 +5,6 @@ import {
   IonButton,
   IonInput,
   IonItem,
-  IonLabel,
   useIonRouter,
   useIonToast,
 } from "@ionic/react";
@@ -26,6 +25,7 @@ const Login: React.FC = () => {
       message,
       duration: 2000,
       color,
+      position: "middle",
     });
   };
   const router = useIonRouter();
@@ -59,30 +59,47 @@ const Login: React.FC = () => {
     <IonPage>
       <MainHeader title="Login" />
       <IonContent className="ion-padding">
-        <IonItem>
-          <IonLabel position="stacked">Email</IonLabel>
-          <IonInput
-            type="email"
-            value={email}
-            placeholder="Enter your email"
-            onIonInput={(e) => setEmail(e.detail.value!)}
-          />
-        </IonItem>
-        <IonItem>
-          <IonLabel position="stacked">Password</IonLabel>
-          <IonInput
-            type="password"
-            value={password}
-            placeholder="Enter your password"
-            onIonInput={(e) => setPassword(e.detail.value!)}
-          />
-        </IonItem>
-        <IonButton expand="block" onClick={handleLogin}>
-          Login
-        </IonButton>
-        <IonButton expand="block" color="light" routerLink="/register">
-          Register
-        </IonButton>
+        <div className="w-full flex flex-col ion-align-items-center">
+          <div className="w-full max-w-md">
+            <IonItem>
+              <IonInput
+                type="email"
+                label="Email"
+                labelPlacement="floating"
+                value={email}
+                placeholder="Enter your email"
+                onIonInput={(e) => setEmail(e.detail.value!)}
+              />
+            </IonItem>
+            <IonItem>
+              <IonInput
+                type="password"
+                label="Password"
+                labelPlacement="floating"
+                value={password}
+                placeholder="Enter your password"
+                onIonInput={(e) => setPassword(e.detail.value!)}
+              />
+            </IonItem>
+            <IonButton
+              expand="block"
+              shape="round"
+              onClick={handleLogin}
+              className="m-4"
+            >
+              Login
+            </IonButton>
+            <IonButton
+              expand="block"
+              shape="round"
+              color="light"
+              routerLink="/register"
+              className="m-4"
+            >
+              Register
+            </IonButton>
+          </div>
+        </div>
       </IonContent>
     </IonPage>
   );
