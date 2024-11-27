@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import {
   IonAvatar,
+  IonBackButton,
   IonButton,
   IonButtons,
   IonContent,
@@ -15,14 +16,12 @@ import {
   IonToolbar,
   useIonRouter,
 } from "@ionic/react";
-import { arrowBackOutline } from "ionicons/icons";
 
 interface HeaderProps {
   title: string;
-  returnUrl?: string;
 }
 
-const MainHeader: React.FC<HeaderProps> = ({ title, returnUrl }) => {
+const MainHeader: React.FC<HeaderProps> = ({ title }) => {
   const { user, setUser } = useContext(AuthContext);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [popoverEvent, setPopoverEvent] = useState<MouseEvent | null>(null);
@@ -70,17 +69,10 @@ const MainHeader: React.FC<HeaderProps> = ({ title, returnUrl }) => {
   return (
     <IonHeader className="ion-no-border bg-background">
       <IonToolbar className="rounded-b-2xl shadow-md flex items-center justify-between">
-        {returnUrl && (
-          <IonButtons slot="start">
-            <IonButton routerLink={returnUrl}>
-              <IonIcon
-                icon={arrowBackOutline}
-                slot="icon-only"
-                className="ion-activatable ripple-parent rounded-rectangle"
-              ></IonIcon>
-            </IonButton>
-          </IonButtons>
-        )}
+        <IonButtons slot="start">
+          <IonBackButton></IonBackButton>
+        </IonButtons>
+
         <IonTitle className="text-light text-2xl font-extrabold absolute top-3 left-1/2 transform -translate-x-1/2 ">
           {title}
         </IonTitle>

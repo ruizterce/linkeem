@@ -13,19 +13,13 @@ import {
   IonModal,
   IonPage,
   IonTextarea,
-  IonToolbar,
+  useIonRouter,
   useIonToast,
 } from "@ionic/react";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { fetchPostById, likePost, postComment, unlikePost } from "../api/post";
 import { useParams } from "react-router";
-import {
-  arrowBackOutline,
-  chatbubble,
-  chatbubblesOutline,
-  heartOutline,
-  heartSharp,
-} from "ionicons/icons";
+import { chatbubblesOutline, heartOutline, heartSharp } from "ionicons/icons";
 import LikesStack from "../components/LikesStack";
 import { PostContext } from "../contexts/PostContext";
 import { AuthContext } from "../contexts/AuthContext";
@@ -72,6 +66,7 @@ const PostDetail: React.FC = () => {
   const [commentContent, setCommentContent] = useState("");
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
   const [present] = useIonToast();
+  const router = useIonRouter();
 
   const showToast = (message: string, color: string) => {
     present({
@@ -138,12 +133,18 @@ const PostDetail: React.FC = () => {
 
   return (
     <IonPage>
-      <MainHeader title={"Post Details"} returnUrl="/feed" />
+      <MainHeader title={"Post Details"} />
       <IonContent>
         <div key={post.id} className="dark:bg-gray-800 p-4">
           <IonLabel className="text-primary dark:text-light">
-            <div className="flex ion-align-items-center mb-2">
-              <IonAvatar className="w-6 h-6">
+            <div
+              className="inline-flex items-center mb-2 rounded-3xl pr-2 hover:bg-primary hover:text-light cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                router.push(`/users/${post.author.id}`);
+              }}
+            >
+              <IonAvatar className="w-6 h-6 ">
                 <img src={post.author.profilePicture} alt="" />
               </IonAvatar>
               <h1 className="font-semibold text-xl ml-2">

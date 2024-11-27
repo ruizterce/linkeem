@@ -51,7 +51,7 @@ const PostForm: React.FC = () => {
 
   return (
     <IonPage>
-      <MainHeader title={"New Post"} returnUrl="/feed" />
+      <MainHeader title={"New Post"} />
       <IonContent className="ion-padding">
         <div className="w-full flex flex-col ion-align-items-center">
           <IonTextarea
