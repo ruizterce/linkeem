@@ -103,6 +103,7 @@ export const AuthController = {
     res.status(200).json({
       message: "Token is valid",
       user: {
+        id: user.id,
         username: user.username,
         email: user.email,
         profilePicture: user.profilePicture,

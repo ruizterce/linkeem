@@ -59,6 +59,7 @@ export const PostModel = {
       include: {
         author: {
           select: {
+            id: true,
             username: true,
             profilePicture: true,
           },

@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState, ReactNode } from "react";
 import { verifyToken } from "../api/auth";
 
 interface User {
+  id: string;
   username: string;
   email: string;
   profilePicture: string;
@@ -40,6 +41,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           console.log("Token verified");
           setIsAuthenticated(true);
           setUser({
+            id: response.user.id,
             username: response.user.username,
             email: response.user.email,
             profilePicture: response.user.profilePicture,
