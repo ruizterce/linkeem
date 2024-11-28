@@ -1,7 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
-import { fetchUserById, fetchUserByIdExtended } from "../api/user";
+import {
+  fetchUserById,
+  fetchUserByIdExtended,
+  followUser,
+  unfollowUser,
+} from "../api/user";
 import {
   IonAvatar,
   IonButton,
@@ -15,8 +20,10 @@ import {
   IonSegmentContent,
   IonSegmentView,
   useIonRouter,
+  useIonToast,
 } from "@ionic/react";
 import MainHeader from "../components/MainHeader";
+import axios from "axios";
 
 interface User {
   id: string;
@@ -54,18 +61,64 @@ const UserDetail: React.FC = () => {
   const { user } = useContext(AuthContext);
   const { userId } = useParams<UserDetailParams>();
   const [targetUser, setTargetUser] = useState<User>();
+  const [hasFollowed, setHasFollowed] = useState<boolean>(false);
+  const [present] = useIonToast();
   const router = useIonRouter();
 
   const loadUser = async (userId: string) => {
     const targetUser = await fetchUserByIdExtended(userId);
     console.log(targetUser);
     setTargetUser(targetUser);
+
+    const userHasFollowed = targetUser.followers.some(
+      (follower: { follower: { id: string } }) =>
+        follower.follower.id === user?.id
+    );
+    setHasFollowed(userHasFollowed);
   };
 
   useEffect(() => {
     loadUser(userId);
-    console.log(userId);
   }, [userId]);
+
+  const showToast = (message: string, color: string) => {
+    present({
+      message,
+      duration: 2000,
+      color,
+      position: "middle",
+    });
+  };
+
+  const handleFollow = async () => {
+    try {
+      if (!targetUser) {
+        showToast("No user found. Please try again later.", "danger");
+        console.error("No target user to follow/unfollow.");
+        return;
+      }
+      if (hasFollowed) {
+        await unfollowUser(targetUser.id);
+        showToast("User Unfollowed", "danger");
+      } else {
+        await followUser(targetUser.id);
+        showToast("User Followed", "success");
+      }
+      setHasFollowed(!hasFollowed);
+      await loadUser(userId);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const errorMessage =
+          error.response?.data?.message || "An error occurred";
+        console.error("Error following/unfollowing user:", errorMessage);
+        showToast(errorMessage, "danger");
+      } else {
+        // For non-Axios errors
+        console.error("Unexpected error:", error);
+        showToast("An unexpected error occurred", "danger");
+      }
+    }
+  };
 
   if (!targetUser) {
     return <div>No target user</div>;
@@ -97,8 +150,13 @@ const UserDetail: React.FC = () => {
             <p className="text-sm">Followers</p>
           </div>
           <div className="flex justify-center">
-            <IonButton shape="round" color="primary" size="small">
-              Follow
+            <IonButton
+              shape="round"
+              color={hasFollowed ? "medium" : "primary"}
+              size="small"
+              onClick={handleFollow}
+            >
+              {hasFollowed ? "Unfollow" : "Follow"}
             </IonButton>
           </div>
 
@@ -228,6 +286,7 @@ const UserDetail: React.FC = () => {
               <div className="py-2">
                 {targetUser.followers.map(({ follower }) => (
                   <IonChip
+                    key={follower.id}
                     className="text-light bg-primary hover:bg-light hover:text-primary cursor-pointer"
                     onClick={() => {
                       router.push(`/users/${follower.id}`);

@@ -31,3 +31,38 @@ export const fetchUserByIdExtended = async (userId: string) => {
   console.log(response.data);
   return response.data;
 };
+
+export const followUser = async (userId: string) => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("User is not authenticated");
+  }
+  const response = await axios.post(
+    `${API_BASE_URL}/users/${userId}/follow`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  console.log(response.data);
+  return response.data;
+};
+
+export const unfollowUser = async (userId: string) => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("User is not authenticated");
+  }
+  const response = await axios.delete(
+    `${API_BASE_URL}/users/${userId}/follow`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  console.log(response.data);
+  return response.data;
+};

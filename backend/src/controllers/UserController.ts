@@ -73,15 +73,18 @@ export const UserController = {
   // Follow a user
   followUser: async (req: Request, res: Response): Promise<Response | void> => {
     const { userId: followingId } = req.params;
-    const { followerId } = req.body; // TODO: Replace with `req.user?.id` after implementing authentication middleware
+    const currentUserId = req.user?.id;
 
-    if (followerId === followingId) {
+    if (!currentUserId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    if (currentUserId === followingId) {
       return res.status(400).json({ message: "You cannot follow yourself." });
     }
 
     try {
       const isFollowing = await FollowModel.isFollowing(
-        followerId,
+        currentUserId,
         followingId
       );
       if (isFollowing) {
@@ -90,7 +93,7 @@ export const UserController = {
           .json({ message: "You are already following this user." });
       }
 
-      const follow = await FollowModel.followUser(followerId, followingId);
+      const follow = await FollowModel.followUser(currentUserId, followingId);
       return res.status(201).json(follow);
     } catch (error) {
       console.error(error);
@@ -104,11 +107,17 @@ export const UserController = {
     res: Response
   ): Promise<Response | void> => {
     const { userId: followingId } = req.params;
-    const { followerId } = req.body; // TODO: Replace with `req.user?.id` after implementing authentication middleware
+    const currentUserId = req.user?.id;
 
+    if (!currentUserId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    if (currentUserId === followingId) {
+      return res.status(400).json({ message: "You cannot follow yourself." });
+    }
     try {
       const isFollowing = await FollowModel.isFollowing(
-        followerId,
+        currentUserId,
         followingId
       );
       if (!isFollowing) {
@@ -117,7 +126,7 @@ export const UserController = {
           .json({ message: "You are not following this user." });
       }
 
-      await FollowModel.unfollowUser(followerId, followingId);
+      await FollowModel.unfollowUser(currentUserId, followingId);
       return res.status(200).json({ message: "Unfollowed successfully." });
     } catch (error) {
       console.error(error);
