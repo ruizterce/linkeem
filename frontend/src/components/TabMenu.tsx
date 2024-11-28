@@ -12,14 +12,16 @@ import { Route } from "react-router-dom";
 import Feed from "../pages/Feed";
 import PostForm from "../pages/PostForm";
 import PostDetail from "../pages/PostDetail";
+import UserDetail from "../pages/UserDetail";
 
 const TabMenu: React.FC = () => {
   return (
     <IonTabs className="bg-background">
       <IonRouterOutlet>
+        <Route exact path="/posts/:postId" component={PostDetail} />
+        <Route exact path="/users/:userId" component={UserDetail} />
         <Route exact path="/feed" component={Feed} />
         <Route exact path="/post" component={PostForm} />
-        <Route exact path="/posts/:postId" component={PostDetail} />
       </IonRouterOutlet>
       <IonTabBar slot="bottom" className="rounded-t-2xl shadow-t-md">
         <IonTabButton tab="feed" href="/feed">

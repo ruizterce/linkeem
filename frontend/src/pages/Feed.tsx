@@ -22,6 +22,7 @@ interface Post {
   content: string;
   createdAt: string;
   author: {
+    id: string;
     username: string;
     profilePicture: string;
   };
@@ -112,7 +113,13 @@ const Feed: React.FC = () => {
             }}
           >
             <IonLabel className="text-primary dark:text-light">
-              <div className="flex ion-align-items-center mb-2">
+              <div
+                className="inline-flex items-center mb-2 rounded-3xl pr-2 hover:bg-primary hover:text-light cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  router.push(`/users/${post.author.id}`);
+                }}
+              >
                 <IonAvatar className="w-6 h-6">
                   <img src={post.author.profilePicture} alt="" />
                 </IonAvatar>

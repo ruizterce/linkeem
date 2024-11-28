@@ -30,7 +30,40 @@ export const UserController = {
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
-      return res.json(user);
+      return res.json({
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        profilePicture: user.profilePicture,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  },
+
+  // Handle user profile retrieval with extended information
+  getProfileExtended: async (req: Request, res: Response) => {
+    const userId = req.params.id;
+
+    try {
+      const user = await UserModel.findByIdExtended(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      return res.json({
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        profilePicture: user.profilePicture,
+        posts: user.posts,
+        followers: user.followers,
+        following: user.following,
+        likes: user.likes,
+        comments: user.comments,
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Internal server error" });

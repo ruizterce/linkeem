@@ -3,6 +3,12 @@ import { UserController } from "../controllers/UserController";
 
 const userRouter = Router();
 
+// Get a user's profile with extended information
+userRouter.get(
+  "/:id/extended",
+  UserController.getProfileExtended as RequestHandler
+);
+
 // Get a user's profile
 userRouter.get("/:id", UserController.getProfile as RequestHandler);
 

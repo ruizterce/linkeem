@@ -33,9 +33,33 @@ export const UserModel = {
     return await prisma.user.findUnique({
       where: { id },
       include: {
-        posts: true,
-        followers: true,
+        posts: {
+          select: {
+            id: true,
+            content: true,
+            createdAt: true,
+            _count: {
+              select: {
+                comments: true,
+                likes: true,
+              },
+            },
+          },
+        },
+        followers: {
+          select: {
+            follower: {
+              select: {
+                id: true,
+                username: true,
+                profilePicture: true,
+              },
+            },
+          },
+        },
         following: true,
+        likes: true,
+        comments: true,
       },
     });
   },

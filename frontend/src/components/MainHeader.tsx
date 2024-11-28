@@ -7,7 +7,6 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
-  IonIcon,
   IonItem,
   IonList,
   IonPopover,
@@ -68,12 +67,12 @@ const MainHeader: React.FC<HeaderProps> = ({ title }) => {
 
   return (
     <IonHeader className="ion-no-border bg-background">
-      <IonToolbar className="rounded-b-2xl shadow-md flex items-center justify-between">
+      <IonToolbar className="rounded-b-2xl shadow-md text-center">
         <IonButtons slot="start">
           <IonBackButton></IonBackButton>
         </IonButtons>
 
-        <IonTitle className="text-light text-2xl font-extrabold absolute top-3 left-1/2 transform -translate-x-1/2 ">
+        <IonTitle className="text-light text-2xl font-extrabold ">
           {title}
         </IonTitle>
         {user && (
@@ -105,6 +104,16 @@ const MainHeader: React.FC<HeaderProps> = ({ title }) => {
                     <IonText className="text-primary">
                       <b>{user?.username}</b>
                     </IonText>
+                  </IonItem>
+                  <IonItem
+                    button={true}
+                    detail={false}
+                    onClick={() => {
+                      router.push(`/users/${user.id}`, "forward");
+                      setIsPopoverOpen(false);
+                    }}
+                  >
+                    My Profile
                   </IonItem>
                   <IonItem button={true} detail={false} onClick={handleLogout}>
                     Log out

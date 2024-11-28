@@ -185,12 +185,18 @@ const PostDetail: React.FC = () => {
               <IonList className="space-y-4" lines="none">
                 {post.comments.map((comment) => (
                   <IonItem key={comment.id} className="mt-2 text-sm">
-                    <div className="mb-2">
-                      <div className="flex ion-align-items-center mb-2">
+                    <div className="mb-2 text-primary dark:text-light">
+                      <div
+                        className="inline-flex items-center mb-2 rounded-3xl pr-2 hover:bg-primary hover:text-light cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          router.push(`/users/${comment.user.id}`);
+                        }}
+                      >
                         <IonAvatar className="w-6 h-6">
                           <img src={comment.user.profilePicture} alt="" />
                         </IonAvatar>
-                        <span className="font-bold text-md text-gray-500 ml-2">
+                        <span className="font-bold text-md ml-2">
                           {comment.user.username}
                         </span>
                       </div>
