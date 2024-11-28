@@ -133,4 +133,28 @@ export const UserController = {
       return res.status(500).json({ message: "Error unfollowing user." });
     }
   },
+
+  // Get users with search query and pagination
+  getUsers: async (req: Request, res: Response) => {
+    const { page = "1", limit = "10", query = "" } = req.query;
+
+    const pageNumber = parseInt(page as string, 10);
+    const limitNumber = parseInt(limit as string, 10);
+
+    if (isNaN(pageNumber) || isNaN(limitNumber)) {
+      return res.status(400).json({ message: "Invalid pagination parameters" });
+    }
+
+    try {
+      const users = await UserModel.fetchUsers(
+        query as string,
+        (pageNumber - 1) * limitNumber,
+        limitNumber
+      );
+      return res.json(users);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      res.status(500).json({ message: "Error fetching users" });
+    }
+  },
 };

@@ -31,4 +31,11 @@ userRouter.get("/:id", UserController.getProfile as RequestHandler);
 // Create a new user
 userRouter.post("/register", UserController.register as RequestHandler);
 
+// Get users query
+userRouter.get(
+  "/",
+  AuthController.authenticateJWT as RequestHandler,
+  UserController.getUsers as RequestHandler
+);
+
 export default userRouter;

@@ -84,4 +84,21 @@ export const UserModel = {
       },
     });
   },
+
+  // Fetch users with search query and pagination
+  fetchUsers: async (query: string, skip: number, take: number) => {
+    return await prisma.user.findMany({
+      where: {
+        username: { contains: query, mode: "insensitive" }, // Case-insensitive search
+      },
+      select: {
+        id: true,
+        username: true,
+        profilePicture: true, // Include avatar if available
+      },
+      orderBy: { username: "asc" },
+      skip,
+      take,
+    });
+  },
 };

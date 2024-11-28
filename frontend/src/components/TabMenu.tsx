@@ -8,11 +8,12 @@ import {
   IonRouterOutlet,
 } from "@ionic/react";
 import { home, person } from "ionicons/icons";
-import { Route } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import Feed from "../pages/Feed";
 import PostForm from "../pages/PostForm";
 import PostDetail from "../pages/PostDetail";
 import UserDetail from "../pages/UserDetail";
+import Users from "../pages/Users";
 
 const TabMenu: React.FC = () => {
   return (
@@ -22,15 +23,19 @@ const TabMenu: React.FC = () => {
         <Route exact path="/users/:userId" component={UserDetail} />
         <Route exact path="/feed" component={Feed} />
         <Route exact path="/post" component={PostForm} />
+        <Route exact path="/users" component={Users} />
+        <Route exact path="/">
+          <Redirect to="/feed" />
+        </Route>
       </IonRouterOutlet>
       <IonTabBar slot="bottom" className="rounded-t-2xl shadow-t-md">
         <IonTabButton tab="feed" href="/feed">
           <IonIcon icon={home} />
           <IonLabel>Feed</IonLabel>
         </IonTabButton>
-        <IonTabButton tab="profile" href="/profile">
+        <IonTabButton tab="users" href="/users">
           <IonIcon icon={person} />
-          <IonLabel>Profile</IonLabel>
+          <IonLabel>Users</IonLabel>
         </IonTabButton>
       </IonTabBar>
     </IonTabs>
