@@ -53,7 +53,7 @@ export const PostModel = {
       where: {
         OR: [
           { authorId: currentUserId },
-          { author: { following: { some: { followerId: currentUserId } } } },
+          { author: { followers: { some: { followerId: currentUserId } } } },
         ],
       },
       include: {
