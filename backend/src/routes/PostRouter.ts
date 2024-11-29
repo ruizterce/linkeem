@@ -4,6 +4,13 @@ import { AuthController } from "../controllers/AuthController";
 
 const postRouter = Router();
 
+// Get recent posts (all)
+postRouter.get(
+  "/discover",
+  AuthController.authenticateJWT as RequestHandler,
+  PostController.getPosts as RequestHandler
+);
+
 // Get post by ID
 postRouter.get(
   "/:postId",
@@ -15,7 +22,7 @@ postRouter.get(
 postRouter.get(
   "/",
   AuthController.authenticateJWT as RequestHandler,
-  PostController.getRecentPosts as RequestHandler
+  PostController.getFollowedPosts as RequestHandler
 );
 
 // Create a new post
