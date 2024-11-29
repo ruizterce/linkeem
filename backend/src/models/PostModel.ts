@@ -62,6 +62,10 @@ export const PostModel = {
             id: true,
             username: true,
             profilePicture: true,
+            followers: {
+              where: { followerId: currentUserId },
+              select: { id: true }, // Check if the current user follows this author
+            },
           },
         },
         comments: {
@@ -84,7 +88,7 @@ export const PostModel = {
     });
   },
 
-  fetchPosts: async (skip: number, take: number) => {
+  fetchPosts: async (currentUserId: string, skip: number, take: number) => {
     return await prisma.post.findMany({
       include: {
         author: {
@@ -92,6 +96,10 @@ export const PostModel = {
             id: true,
             username: true,
             profilePicture: true,
+            followers: {
+              where: { followerId: currentUserId },
+              select: { id: true }, // Check if the current user follows this author
+            },
           },
         },
         comments: {

@@ -49,6 +49,7 @@ export const PostController = {
 
     try {
       const posts = await PostModel.fetchPosts(
+        currentUserId,
         (pageNumber - 1) * limitNumber,
         limitNumber
       );

@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { PostContext } from "../contexts/PostContext";
 
 interface Post {
   id: string;
@@ -8,6 +9,7 @@ interface Post {
     id: string;
     username: string;
     profilePicture: string;
+    followers: { id: string }[];
   };
   comments: {
     id: string;
@@ -23,6 +25,7 @@ interface Post {
 export const usePosts = (
   fetchPostsMethod: (page: number, limit: number) => Promise<Post[]>
 ) => {
+  const { refreshFeed } = useContext(PostContext);
   const [posts, setPosts] = useState<Post[]>([]);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -54,7 +57,7 @@ export const usePosts = (
 
   useEffect(() => {
     loadPosts(true);
-  }, []);
+  }, [refreshFeed]);
 
   return { posts, hasMore, loadPosts };
 };

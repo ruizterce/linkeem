@@ -24,6 +24,7 @@ import {
 } from "@ionic/react";
 import MainHeader from "../components/MainHeader";
 import axios from "axios";
+import { PostContext } from "../contexts/PostContext";
 
 interface User {
   id: string;
@@ -60,6 +61,7 @@ interface UserDetailParams {
 const UserDetail: React.FC = () => {
   const { user } = useContext(AuthContext);
   const { userId } = useParams<UserDetailParams>();
+  const { triggerRefresh } = useContext(PostContext);
   const [targetUser, setTargetUser] = useState<User>();
   const [hasFollowed, setHasFollowed] = useState<boolean>(false);
   const [present] = useIonToast();
@@ -100,9 +102,11 @@ const UserDetail: React.FC = () => {
       if (hasFollowed) {
         await unfollowUser(targetUser.id);
         showToast("User Unfollowed", "danger");
+        triggerRefresh();
       } else {
         await followUser(targetUser.id);
         showToast("User Followed", "success");
+        triggerRefresh();
       }
       setHasFollowed(!hasFollowed);
       await loadUser(userId);
