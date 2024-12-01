@@ -66,6 +66,7 @@ const UserDetail: React.FC = () => {
   const [hasFollowed, setHasFollowed] = useState<boolean>(false);
   const [present] = useIonToast();
   const router = useIonRouter();
+  const [selectedSegment, setSelectedSegment] = useState("posts");
 
   const loadUser = async (userId: string) => {
     const targetUser = await fetchUserByIdExtended(userId);
@@ -82,6 +83,11 @@ const UserDetail: React.FC = () => {
   useEffect(() => {
     loadUser(userId);
   }, [userId]);
+
+  // Reset segment to "posts" whenever targetUser changes
+  useEffect(() => {
+    setSelectedSegment("posts");
+  }, [targetUser]);
 
   const showToast = (message: string, color: string) => {
     present({
@@ -189,7 +195,8 @@ const UserDetail: React.FC = () => {
 
         <div>
           <IonSegment
-            value="default"
+            value={selectedSegment}
+            onIonChange={(e) => setSelectedSegment(String(e.detail.value))}
             className="sticky bg-opacity-100 z-10 shadow-sm"
             style={{ top: "-18px", "--background": "#ffffff" }}
           >
@@ -205,7 +212,7 @@ const UserDetail: React.FC = () => {
           </IonSegment>
 
           <IonSegmentView>
-            <IonSegmentContent id="posts" className="relative z-1">
+            <IonSegmentContent id="posts" hidden={selectedSegment !== "posts"}>
               {targetUser.posts.map((post) => (
                 <div
                   key={post.id}
@@ -250,7 +257,10 @@ const UserDetail: React.FC = () => {
                 </div>
               ))}
             </IonSegmentContent>
-            <IonSegmentContent id="comments">
+            <IonSegmentContent
+              id="comments"
+              hidden={selectedSegment !== "comments"}
+            >
               {targetUser.comments.map((comment) => (
                 <div
                   key={comment.id}
@@ -286,7 +296,10 @@ const UserDetail: React.FC = () => {
                 </div>
               ))}
             </IonSegmentContent>
-            <IonSegmentContent id="followers">
+            <IonSegmentContent
+              id="followers"
+              hidden={selectedSegment !== "followers"}
+            >
               <div className="py-2">
                 {targetUser.followers.map(({ follower }) => (
                   <IonChip
