@@ -20,6 +20,7 @@ const Register: React.FC = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState(""); // New state for confirm password
   // Show toast notification
   const [present] = useIonToast();
   const showToast = (message: string, color: string) => {
@@ -34,8 +35,36 @@ const Register: React.FC = () => {
   const router = useIonRouter();
 
   const handleRegister = async () => {
+    // Client-side validation
+    if (!email || !username || !password || !confirmPassword) {
+      showToast("All fields are required", "danger");
+      return;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      showToast("Invalid email format", "danger");
+      return;
+    }
+    if (username.length < 3 || username.length > 20) {
+      showToast("Username must be between 3 and 20 characters", "danger");
+      return;
+    }
+    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+      showToast(
+        "Username can only contain letters, numbers, and underscores",
+        "danger"
+      );
+      return;
+    }
+    if (password.length < 8) {
+      showToast("Password must be at least 8 characters", "danger");
+      return;
+    }
+    if (password !== confirmPassword) {
+      showToast("Passwords do not match", "danger");
+      return;
+    }
+
     try {
-      console.log("Registering with:", { email, username, password });
       const data = await register(email, username, password);
       showToast(`${username} registered successfully!`, "success");
       router.push("/login", "forward");
@@ -43,10 +72,9 @@ const Register: React.FC = () => {
       if (axios.isAxiosError(error)) {
         const errorMessage =
           error.response?.data?.message || "An error occurred";
-        console.error("Error logging in:", errorMessage);
+        console.error("Error registering:", errorMessage);
         showToast(errorMessage, "danger");
       } else {
-        // For non-Axios errors
         console.error("Unexpected error:", error);
         showToast("An unexpected error occurred", "danger");
       }
@@ -92,6 +120,16 @@ const Register: React.FC = () => {
                 value={password}
                 placeholder="Enter your password"
                 onIonInput={(e) => setPassword(e.detail.value!)}
+              />
+            </IonItem>
+            <IonItem>
+              <IonInput
+                type="password"
+                label="Confirm Password"
+                labelPlacement="floating"
+                value={confirmPassword}
+                placeholder="Confirm your password"
+                onIonInput={(e) => setConfirmPassword(e.detail.value!)}
               />
             </IonItem>
             <IonButton

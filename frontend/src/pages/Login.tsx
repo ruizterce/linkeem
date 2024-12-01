@@ -32,7 +32,6 @@ const Login: React.FC = () => {
 
   const handleLogin = async () => {
     try {
-      console.log("Logging in with:", { email, password });
       const data = await login(email, password);
       localStorage.setItem("token", data.token);
       window.location.href = "/feed";
