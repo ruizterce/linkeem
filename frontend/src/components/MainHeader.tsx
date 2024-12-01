@@ -58,7 +58,17 @@ const MainHeader: React.FC<HeaderProps> = ({ title }) => {
   };
 
   React.useEffect(() => {
-    updatePopoverOffset();
+    const checkAndUpdateOffset = () => {
+      const appWidth = document.querySelector(".ion-page")?.clientWidth || 0;
+      if (appWidth > 0) {
+        updatePopoverOffset();
+      } else {
+        // Retry after a short delay if the app width is not available yet
+        setTimeout(checkAndUpdateOffset, 50);
+      }
+    };
+
+    checkAndUpdateOffset(); // Initial check and update
     window.addEventListener("resize", updatePopoverOffset);
     return () => {
       window.removeEventListener("resize", updatePopoverOffset);
@@ -94,12 +104,13 @@ const MainHeader: React.FC<HeaderProps> = ({ title }) => {
               event={popoverEvent}
               side="bottom"
               alignment="end"
+              arrow={false}
               style={{
                 "--offset-x": `-${popoverOffsetX}px`,
               }}
             >
               <IonContent>
-                <IonList>
+                <IonList lines="none">
                   <IonItem>
                     <IonText className="text-primary">
                       <b>{user?.username}</b>
