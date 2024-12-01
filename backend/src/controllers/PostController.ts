@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { PostModel } from "../models/PostModel";
 import { LikeModel } from "../models/LikeModel";
+import { body, validationResult } from "express-validator";
 
 export const PostController = {
   // Fetch recent posts
@@ -79,29 +80,39 @@ export const PostController = {
   },
 
   // Create a new post
-  createPost: async (req: Request, res: Response) => {
-    const currentUserId = req.user?.id;
-    const { content } = req.body;
+  createPost: [
+    body("content")
+      .trim()
+      .notEmpty()
+      .withMessage("Post content cannot be empty")
+      .isLength({ max: 420 })
+      .withMessage("Post content cannot exceed 420 characters"),
 
-    if (!currentUserId) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
+    async (req: Request, res: Response) => {
+      const currentUserId = req.user?.id;
+      const { content } = req.body;
 
-    if (content === "") {
-      return res.status(400).json({ message: "Invalid content; Empty Post" });
-    }
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ message: errors.array()[0].msg });
+      }
 
-    try {
-      const newPost = await PostModel.create({
-        content,
-        authorId: currentUserId,
-      });
-      return res.status(201).json(newPost);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Error creating post" });
-    }
-  },
+      if (!currentUserId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      try {
+        const newPost = await PostModel.create({
+          content,
+          authorId: currentUserId,
+        });
+        return res.status(201).json(newPost);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error creating post" });
+      }
+    },
+  ],
 
   // Update a post
   updatePost: async (req: Request, res: Response): Promise<Response | void> => {

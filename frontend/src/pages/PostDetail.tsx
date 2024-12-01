@@ -102,6 +102,11 @@ const PostDetail: React.FC = () => {
   };
 
   const handleComment = async () => {
+    if (!commentContent.trim()) {
+      showToast("Comment content cannot be empty.", "danger");
+      return;
+    }
+
     try {
       await postComment(commentContent, postId);
       setIsCommentModalOpen(false);

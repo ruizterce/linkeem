@@ -30,6 +30,11 @@ const PostForm: React.FC = () => {
   };
 
   const handlePost = async () => {
+    if (!postContent.trim()) {
+      showToast("Post content cannot be empty.", "danger");
+      return;
+    }
+
     try {
       const data = await postPost(postContent);
       showToast("Post Created", "success");
