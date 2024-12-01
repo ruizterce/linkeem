@@ -5,6 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "dev": "tsx watch src/server.ts",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:seed": "npx ts-node prisma/seed.ts"
   },
