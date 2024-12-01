@@ -8,11 +8,21 @@ import {
   useIonRouter,
   IonButton,
   useIonToast,
+  IonIcon,
+  IonFab,
+  IonFabButton,
 } from "@ionic/react";
 import { AuthContext } from "../contexts/AuthContext";
 import { unfollowUser, followUser } from "../api/user";
 import { PostContext } from "../contexts/PostContext";
 import axios from "axios";
+import {
+  chatbubbleOutline,
+  personAdd,
+  personAddOutline,
+  personRemove,
+  personRemoveOutline,
+} from "ionicons/icons";
 
 interface Post {
   id: string;
@@ -102,10 +112,21 @@ const PostList: React.FC<PostListProps> = ({ posts, loadMore, hasMore }) => {
 
   return (
     <>
+      <IonFab
+        horizontal="end"
+        vertical="bottom"
+        slot="fixed"
+        className="mb-2 mr-2 opacity-70 hover:opacity-100 active:opacity-100"
+      >
+        <IonFabButton routerLink="/post">
+          <IonIcon icon={chatbubbleOutline}></IonIcon>
+        </IonFabButton>
+      </IonFab>
+
       {posts.map((post) => (
         <div
           key={post.id}
-          className="ion-activatable ripple-parent rounded-lg relative dark:bg-gray-800 border-2 border-solid border-gray-100 py-4 px-6 mb-4 hover:border-medium"
+          className=" rounded-lg relative dark:bg-gray-800 border-2 border-solid border-gray-100 py-4 px-6 mb-4 hover:border-medium"
           onClick={() => {
             router.push(`/posts/${post.id}`);
           }}
@@ -126,43 +147,48 @@ const PostList: React.FC<PostListProps> = ({ posts, loadMore, hasMore }) => {
                   {post.author.username}
                 </h1>
               </div>
-              <IonButton
+              <button
                 onClick={(e) => {
                   e.stopPropagation();
                   handleFollow(post.author.id, followingStatus[post.author.id]);
                 }}
-                shape="round"
-                size="small"
-                color={followingStatus[post.author.id] ? "danger" : "primary"}
-                className="m-0"
               >
-                {followingStatus[post.author.id] ? "Unfollow" : "Follow"}
-              </IonButton>
+                <IonIcon
+                  icon={
+                    followingStatus[post.author.id]
+                      ? personRemove
+                      : personAddOutline
+                  }
+                  style={{ transform: "translateY(2px)" }}
+                ></IonIcon>
+              </button>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-300">
-              {post.content}
-            </p>
-            <div className="w-full flex justify-between items-center">
-              <div>
-                <span className="text-sm text-primary dark:text-light">
-                  {post.comments.length} Comments
-                </span>
-                <span className="text-medium"> | </span>
-                <span className="text-sm text-secondary dark:text-light">
-                  {post.likes.length} Likes
-                </span>
-              </div>
+            <div className="ion-activatable ripple-parent">
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                {post.content}
+              </p>
+              <div className="w-full flex justify-between items-center">
+                <div>
+                  <span className="text-sm text-primary dark:text-light">
+                    {post.comments.length} Comments
+                  </span>
+                  <span className="text-medium"> | </span>
+                  <span className="text-sm text-secondary dark:text-light">
+                    {post.likes.length} Likes
+                  </span>
+                </div>
 
-              <sub className="text-medium">
-                {new Date(post.createdAt).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}
-              </sub>
+                <sub className="text-medium">
+                  {new Date(post.createdAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </sub>
+              </div>
+              <IonRippleEffect className="rounded-md"></IonRippleEffect>
             </div>
           </IonLabel>
-          <IonRippleEffect className="rounded-md"></IonRippleEffect>
         </div>
       ))}
 
