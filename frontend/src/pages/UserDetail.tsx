@@ -138,7 +138,7 @@ const UserDetail: React.FC = () => {
             <ProfilePictureUploader targetUser={targetUser} />
           ) : (
             <img
-              src={targetUser.profilePicture || "/default-profile-pic.jpg"}
+              src={targetUser.profilePicture || "default-profile-pic.jpg"}
               alt={targetUser.username}
               className="h-40 w-40 border-8 border-primary shadow-xl"
               style={{ borderRadius: "100%" }}

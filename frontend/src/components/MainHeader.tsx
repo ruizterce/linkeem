@@ -95,7 +95,10 @@ const MainHeader: React.FC<HeaderProps> = ({ title }) => {
                 style={{ height: "30px", width: "30px" }}
                 className="border-2 border-solid border-medium"
               >
-                <img src={user?.profilePicture} alt={user?.username} />
+                <img
+                  src={user?.profilePicture || "default-profile-pic.jpg"}
+                  alt={user?.username}
+                />
               </IonAvatar>
             </IonButton>
             <IonPopover

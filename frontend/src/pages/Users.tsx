@@ -89,7 +89,7 @@ const Users: React.FC = () => {
               <div className="inline-flex items-center mb-2 py-1 rounded-3xl pr-2 text-primary hover:bg-primary hover:text-light cursor-pointer">
                 <IonAvatar className="w-6 h-6 ">
                   <img
-                    src={user.profilePicture || "/default-avatar.png"}
+                    src={user.profilePicture || "default-profile-pic.jpg"}
                     alt={user.username}
                   />
                 </IonAvatar>

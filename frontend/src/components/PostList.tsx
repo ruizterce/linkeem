@@ -138,7 +138,12 @@ const PostList: React.FC<PostListProps> = ({ posts, loadMore, hasMore }) => {
                 }}
               >
                 <IonAvatar className="w-6 h-6">
-                  <img src={post.author.profilePicture} alt="" />
+                  <img
+                    src={
+                      post.author.profilePicture || "default-profile-pic.jpg"
+                    }
+                    alt=""
+                  />
                 </IonAvatar>
                 <h1 className="font-semibold text-xl ml-2">
                   {post.author.username}
