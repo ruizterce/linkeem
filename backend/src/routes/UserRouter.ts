@@ -1,6 +1,7 @@
 import { Handler, RequestHandler, Router } from "express";
 import { UserController } from "../controllers/UserController";
 import { AuthController } from "../controllers/AuthController";
+import { FileController } from "../controllers/FileController";
 
 const userRouter = Router();
 
@@ -15,6 +16,14 @@ userRouter.post(
   "/:userId/follow",
   AuthController.authenticateJWT as RequestHandler,
   UserController.followUser as RequestHandler
+);
+
+// Upload new profile picture
+userRouter.post(
+  "/:userId/profile-picture",
+  AuthController.authenticateJWT as RequestHandler,
+  FileController.uploadProfilePicture,
+  UserController.updateProfilePicture as RequestHandler
 );
 
 // Unfollow a user

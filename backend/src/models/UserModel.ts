@@ -21,6 +21,20 @@ export const UserModel = {
     return await bcrypt.compare(password, hashedPassword);
   },
 
+  updateProfilePicture: async (
+    userId: string,
+    profilePicturePath: string
+  ): Promise<void> => {
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        profilePicture: profilePicturePath,
+      },
+    });
+  },
+
   // Fetch user by ID
   findById: async (id: string) => {
     return await prisma.user.findUnique({

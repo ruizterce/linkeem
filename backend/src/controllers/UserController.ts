@@ -21,6 +21,31 @@ export const UserController = {
     }
   },
 
+  // Handle updating user's profile picture
+  updateProfilePicture: async (req: Request, res: Response) => {
+    try {
+      const targetUserId = req.params.userId;
+      const userId = req.user?.id;
+      console.log(targetUserId);
+      console.log(userId);
+      if (!userId || userId !== targetUserId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const profilePicturePath = `${process.env.API_URL}/uploads/profile-pictures/${req.file?.filename}`;
+
+      await UserModel.updateProfilePicture(userId, profilePicturePath);
+
+      res.status(200).json({
+        message: "Profile picture uploaded successfully",
+        profilePicturePath,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Error uploading profile picture" });
+    }
+  },
+
   // Handle user profile retrieval
   getProfile: async (req: Request, res: Response) => {
     const userId = req.params.id;

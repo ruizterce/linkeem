@@ -1,12 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
-import {
-  fetchUserById,
-  fetchUserByIdExtended,
-  followUser,
-  unfollowUser,
-} from "../api/user";
+import { fetchUserByIdExtended, followUser, unfollowUser } from "../api/user";
 import {
   IonAvatar,
   IonButton,
@@ -25,6 +20,7 @@ import {
 import MainHeader from "../components/MainHeader";
 import axios from "axios";
 import { PostContext } from "../contexts/PostContext";
+import ProfilePictureUploader from "../components/ProfilePictureUploader";
 
 interface User {
   id: string;
@@ -138,12 +134,16 @@ const UserDetail: React.FC = () => {
       <MainHeader title={targetUser.username} />
       <IonContent className="ion-padding">
         <div className="flex flex-col items-center relative mb-8">
-          <img
-            src={targetUser.profilePicture}
-            alt={targetUser.username}
-            className="h-40 w-auto border-8 border-primary shadow-xl"
-            style={{ borderRadius: "100%" }}
-          />
+          {user?.id === targetUser.id ? (
+            <ProfilePictureUploader targetUser={targetUser} />
+          ) : (
+            <img
+              src={targetUser.profilePicture || "/default-profile-pic.jpg"}
+              alt={targetUser.username}
+              className="h-40 w-40 border-8 border-primary shadow-xl"
+              style={{ borderRadius: "100%" }}
+            />
+          )}
 
           <div className="flex flex-col items-center absolute bottom-0 translate-y-4">
             <h1 className="bg-primary text-light font-extrabold rounded-3xl py-2 px-4 shadow-xl">
