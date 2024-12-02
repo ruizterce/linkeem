@@ -160,14 +160,16 @@ const UserDetail: React.FC = () => {
             <p className="text-sm">Followers</p>
           </div>
           <div className="flex justify-center">
-            <IonButton
-              shape="round"
-              color={hasFollowed ? "medium" : "primary"}
-              size="small"
-              onClick={handleFollow}
-            >
-              {hasFollowed ? "Unfollow" : "Follow"}
-            </IonButton>
+            {targetUser.id !== user?.id && (
+              <IonButton
+                shape="round"
+                color={hasFollowed ? "medium" : "primary"}
+                size="small"
+                onClick={handleFollow}
+              >
+                {hasFollowed ? "Unfollow" : "Follow"}
+              </IonButton>
+            )}
           </div>
 
           <div className="text-center">

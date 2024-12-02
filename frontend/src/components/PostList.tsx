@@ -6,7 +6,6 @@ import {
   IonRippleEffect,
   IonAvatar,
   useIonRouter,
-  IonButton,
   useIonToast,
   IonIcon,
   IonFab,
@@ -18,10 +17,8 @@ import { PostContext } from "../contexts/PostContext";
 import axios from "axios";
 import {
   chatbubbleOutline,
-  personAdd,
   personAddOutline,
   personRemove,
-  personRemoveOutline,
 } from "ionicons/icons";
 
 interface Post {
@@ -147,21 +144,26 @@ const PostList: React.FC<PostListProps> = ({ posts, loadMore, hasMore }) => {
                   {post.author.username}
                 </h1>
               </div>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleFollow(post.author.id, followingStatus[post.author.id]);
-                }}
-              >
-                <IonIcon
-                  icon={
-                    followingStatus[post.author.id]
-                      ? personRemove
-                      : personAddOutline
-                  }
-                  style={{ transform: "translateY(2px)" }}
-                ></IonIcon>
-              </button>
+              {post.author.id !== user?.id && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleFollow(
+                      post.author.id,
+                      followingStatus[post.author.id]
+                    );
+                  }}
+                >
+                  <IonIcon
+                    icon={
+                      followingStatus[post.author.id]
+                        ? personRemove
+                        : personAddOutline
+                    }
+                    style={{ transform: "translateY(2px)" }}
+                  ></IonIcon>
+                </button>
+              )}
             </div>
             <div className="ion-activatable ripple-parent">
               <p className="text-sm text-gray-600 dark:text-gray-300">
