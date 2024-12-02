@@ -3,7 +3,11 @@ import { AuthController } from "../controllers/AuthController";
 
 const AuthRouter = Router();
 
-AuthRouter.post("/register", AuthController.register as RequestHandler);
+AuthRouter.post(
+  "/register",
+  AuthController.validateRegistration,
+  AuthController.register as RequestHandler
+);
 AuthRouter.post("/login", AuthController.login as RequestHandler);
 AuthRouter.get(
   "/verify-token",

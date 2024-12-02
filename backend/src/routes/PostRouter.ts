@@ -29,6 +29,7 @@ postRouter.get(
 postRouter.post(
   "/",
   AuthController.authenticateJWT as RequestHandler,
+  PostController.validatePost,
   PostController.createPost as RequestHandler
 );
 

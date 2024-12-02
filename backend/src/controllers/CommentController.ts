@@ -1,43 +1,46 @@
 import { Request, Response } from "express";
 import { CommentModel } from "../models/CommentModel";
-import { body, validationResult } from "express-validator";
+import { body, ValidationChain, validationResult } from "express-validator";
 
 export const CommentController = {
   // Create a new comment
-  createComment: [
+  createComment: async (
+    req: Request,
+    res: Response
+  ): Promise<Response | void> => {
+    const { content, postId } = req.body;
+    const currentUserId = req.user?.id;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message: errors.array()[0].msg });
+    }
+
+    if (!currentUserId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    try {
+      const newComment = await CommentModel.createComment(
+        content,
+        postId,
+        currentUserId
+      );
+      return res.status(201).json(newComment);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Error creating comment." });
+    }
+  },
+
+  validateComment: [
     body("content")
       .trim()
       .notEmpty()
       .withMessage("Comment content cannot be empty")
       .isLength({ max: 360 })
       .withMessage("Comment content cannot exceed 360 characters"),
-
-    async (req: Request, res: Response): Promise<Response | void> => {
-      const { content, postId } = req.body;
-      const currentUserId = req.user?.id;
-
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ message: errors.array()[0].msg });
-      }
-
-      if (!currentUserId) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-
-      try {
-        const newComment = await CommentModel.createComment(
-          content,
-          postId,
-          currentUserId
-        );
-        return res.status(201).json(newComment);
-      } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Error creating comment." });
-      }
-    },
-  ],
+  ] as ValidationChain[],
 
   // Delete a comment
   deleteComment: async (

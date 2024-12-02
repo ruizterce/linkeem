@@ -8,6 +8,7 @@ const commentRouter = Router();
 commentRouter.post(
   "/",
   AuthController.authenticateJWT as RequestHandler,
+  CommentController.validateComment,
   CommentController.createComment as RequestHandler
 );
 
