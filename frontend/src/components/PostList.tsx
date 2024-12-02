@@ -13,7 +13,6 @@ import {
 } from "@ionic/react";
 import { AuthContext } from "../contexts/AuthContext";
 import { unfollowUser, followUser } from "../api/user";
-import { PostContext } from "../contexts/PostContext";
 import axios from "axios";
 import {
   chatbubbleOutline,
@@ -50,7 +49,6 @@ interface PostListProps {
 
 const PostList: React.FC<PostListProps> = ({ posts, loadMore, hasMore }) => {
   const { user } = useContext(AuthContext);
-  const { triggerRefresh } = useContext(PostContext);
   const [present] = useIonToast();
   const router = useIonRouter();
 
@@ -85,13 +83,17 @@ const PostList: React.FC<PostListProps> = ({ posts, loadMore, hasMore }) => {
       if (isFollowing) {
         await unfollowUser(authorId);
         showToast("User Unfollowed", "danger");
-
-        triggerRefresh();
+        setFollowingStatus((prevStatus) => ({
+          ...prevStatus,
+          [authorId]: false,
+        }));
       } else {
         await followUser(authorId);
         showToast("User Followed", "success");
-
-        triggerRefresh();
+        setFollowingStatus((prevStatus) => ({
+          ...prevStatus,
+          [authorId]: true,
+        }));
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
