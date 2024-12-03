@@ -2,6 +2,8 @@
 
 /* Light theme colors */
 :root {
+  --ion-font-family: Poppins;
+
   --primary: #00b5ad;
   --secondary: #ff6f61;
   --success: #64dd17;
@@ -38,6 +40,7 @@
     --color-focused: var(--light);
 
     --background: var(--secondary);
+    --background-activated: var(--dark);
     --background-hover: var(--medium);
     --background-focused: var(--medium);
   }
@@ -105,7 +108,319 @@
     --color-focused: var(--light);
 
     --background: var(--secondary);
+    --background-activated: var(--dark);
     --background-hover: var(--medium);
     --background-focused: var(--medium);
   }
+}
+
+/* Montserrat Font Family */
+
+/* Montserrat Thin */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat/Montserrat-Thin.ttf")
+    format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+/* Montserrat Thin Italic */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat/Montserrat-ThinItalic.ttf")
+    format("truetype");
+  font-weight: 100;
+  font-style: italic;
+}
+
+/* Montserrat ExtraLight */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat/Montserrat-ExtraLight.ttf")
+    format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+/* Montserrat ExtraLight Italic */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat/Montserrat-ExtraLightItalic.ttf")
+    format("truetype");
+  font-weight: 200;
+  font-style: italic;
+}
+
+/* Montserrat Light */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat/Montserrat-Light.ttf")
+    format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* Montserrat Light Italic */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat/Montserrat-LightItalic.ttf")
+    format("truetype");
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* Montserrat Regular */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat/Montserrat-Regular.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Montserrat Italic */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat/Montserrat-Italic.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* Montserrat Medium */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat/Montserrat-Medium.ttf")
+    format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+/* Montserrat Medium Italic */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat/Montserrat-MediumItalic.ttf")
+    format("truetype");
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* Montserrat SemiBold */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat/Montserrat-SemiBold.ttf")
+    format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Montserrat SemiBold Italic */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat/Montserrat-SemiBoldItalic.ttf")
+    format("truetype");
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* Montserrat Bold */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat/Montserrat-Bold.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Montserrat Bold Italic */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat/Montserrat-BoldItalic.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* Montserrat ExtraBold */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat/Montserrat-ExtraBold.ttf")
+    format("truetype");
+  font-weight: 800;
+  font-style: normal;
+}
+
+/* Montserrat ExtraBold Italic */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat/Montserrat-ExtraBoldItalic.ttf")
+    format("truetype");
+  font-weight: 800;
+  font-style: italic;
+}
+
+/* Montserrat Black */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat/Montserrat-Black.ttf")
+    format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+/* Montserrat Black Italic */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/src/assets/fonts/Montserrat/Montserrat-BlackItalic.ttf")
+    format("truetype");
+  font-weight: 900;
+  font-style: italic;
+}
+
+/* Poppins Font Family */
+
+/* Black */
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins/Poppins-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins/Poppins-BlackItalic.ttf")
+    format("truetype");
+  font-weight: 900;
+  font-style: italic;
+}
+
+/* Bold */
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins/Poppins-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins/Poppins-BoldItalic.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* Extra Bold */
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins/Poppins-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins/Poppins-ExtraBoldItalic.ttf")
+    format("truetype");
+  font-weight: 800;
+  font-style: italic;
+}
+
+/* Extra Light */
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins/Poppins-ExtraLight.ttf")
+    format("truetype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins/Poppins-ExtraLightItalic.ttf")
+    format("truetype");
+  font-weight: 200;
+  font-style: italic;
+}
+
+/* Italic */
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins/Poppins-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* Light */
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins/Poppins-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins/Poppins-LightItalic.ttf")
+    format("truetype");
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* Medium */
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins/Poppins-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins/Poppins-MediumItalic.ttf")
+    format("truetype");
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* Regular */
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins/Poppins-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Semi Bold */
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins/Poppins-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins/Poppins-SemiBoldItalic.ttf")
+    format("truetype");
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* Thin */
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins/Poppins-Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/src/assets/fonts/Poppins/Poppins-ThinItalic.ttf")
+    format("truetype");
+  font-weight: 100;
+  font-style: italic;
 }
