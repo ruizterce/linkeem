@@ -1,11 +1,9 @@
 import {
   IonAvatar,
   IonButton,
-  IonButtons,
   IonContent,
   IonFab,
   IonFabButton,
-  IonHeader,
   IonIcon,
   IonItem,
   IonLabel,
@@ -19,12 +17,19 @@ import {
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { fetchPostById, likePost, postComment, unlikePost } from "../api/post";
 import { useParams } from "react-router";
-import { chatbubblesOutline, heartOutline, heartSharp } from "ionicons/icons";
+import {
+  chatbubblesOutline,
+  heartOutline,
+  heartSharp,
+  personAddOutline,
+  personRemove,
+} from "ionicons/icons";
 import LikesStack from "../components/LikesStack";
 import { PostContext } from "../contexts/PostContext";
 import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
 import MainHeader from "../components/MainHeader";
+import { unfollowUser, followUser } from "../api/user";
 
 interface Post {
   id: string;
@@ -34,6 +39,7 @@ interface Post {
     id: string;
     username: string;
     profilePicture: string;
+    followers: [];
   };
   comments: {
     id: string;
@@ -63,6 +69,7 @@ const PostDetail: React.FC = () => {
   const { postId } = useParams<PostDetailParams>();
   const { triggerRefresh } = useContext(PostContext);
   const [post, setPost] = useState<Post>();
+  const [hasFollowed, setHasFollowed] = useState<boolean>(false);
   const [commentContent, setCommentContent] = useState("");
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
   const [present] = useIonToast();
@@ -80,11 +87,17 @@ const PostDetail: React.FC = () => {
   const loadPost = async (postId: string) => {
     const post = await fetchPostById(postId);
     setPost(post);
+    const userHasFollowed = post?.author.followers.some(
+      (follower: { id: string }) => {
+        return follower.id.length > 0;
+      }
+    );
+    setHasFollowed(userHasFollowed);
   };
 
   useEffect(() => {
     loadPost(postId);
-  }, []);
+  }, [postId]);
 
   const handleLike = async () => {
     const hasLiked = post?.likes.some(
@@ -128,6 +141,38 @@ const PostDetail: React.FC = () => {
     }
   };
 
+  const handleFollow = async () => {
+    try {
+      if (!post) {
+        showToast("No user found. Please try again later.", "danger");
+        console.error("No target user to follow/unfollow.");
+        return;
+      }
+      if (hasFollowed) {
+        await unfollowUser(post.author.id);
+        showToast("User Unfollowed", "danger");
+        triggerRefresh();
+      } else {
+        await followUser(post.author.id);
+        showToast("User Followed", "success");
+        triggerRefresh();
+      }
+      setHasFollowed(!hasFollowed);
+      await loadPost(post.id);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const errorMessage =
+          error.response?.data?.message || "An error occurred";
+        console.error("Error following/unfollowing user:", errorMessage);
+        showToast(errorMessage, "danger");
+      } else {
+        // For non-Axios errors
+        console.error("Unexpected error:", error);
+        showToast("An unexpected error occurred", "danger");
+      }
+    }
+  };
+
   if (!post) {
     return <div>No post</div>;
   }
@@ -142,19 +187,34 @@ const PostDetail: React.FC = () => {
       <IonContent>
         <div key={post.id} className="dark:bg-gray-800 p-4">
           <IonLabel className="text-primary dark:text-light">
-            <div
-              className="inline-flex items-center mb-2 rounded-3xl pr-2 hover:bg-primary hover:text-light cursor-pointer"
-              onClick={(e) => {
-                e.stopPropagation();
-                router.push(`/users/${post.author.id}`);
-              }}
-            >
-              <IonAvatar className="w-6 h-6 ">
-                <img src={post.author.profilePicture} alt="" />
-              </IonAvatar>
-              <h1 className="font-semibold text-xl ml-2">
-                {post.author.username}
-              </h1>
+            <div className="flex items-center mb-2">
+              <div
+                className="inline-flex items-center rounded-3xl pr-2 hover:bg-primary hover:text-light cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  router.push(`/users/${post.author.id}`);
+                }}
+              >
+                <IonAvatar className="w-6 h-6 ">
+                  <img src={post.author.profilePicture} alt="" />
+                </IonAvatar>
+                <h1 className="font-semibold text-xl ml-2">
+                  {post.author.username}
+                </h1>
+              </div>
+              {post.author.id !== user?.id && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleFollow();
+                  }}
+                >
+                  <IonIcon
+                    icon={hasFollowed ? personRemove : personAddOutline}
+                    style={{ transform: "translateY(2px)" }}
+                  ></IonIcon>
+                </button>
+              )}
             </div>
             <p className="text-xl text-gray-600 dark:text-gray-300">
               {post.content}

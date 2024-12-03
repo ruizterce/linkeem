@@ -11,7 +11,7 @@ export const PostModel = {
   },
 
   // Fetch a single post by ID
-  getPostById: async (postId: string) => {
+  getPostById: async (postId: string, currentUserId: string) => {
     return prisma.post.findUnique({
       where: { id: postId },
       include: {
@@ -20,6 +20,10 @@ export const PostModel = {
             id: true,
             username: true,
             profilePicture: true,
+            followers: {
+              where: { followerId: currentUserId },
+              select: { id: true }, // Check if the current user follows this author
+            },
           },
         },
         comments: {

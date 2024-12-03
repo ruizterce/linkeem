@@ -71,7 +71,7 @@ export const PostController = {
     }
 
     try {
-      const post = await PostModel.getPostById(postId);
+      const post = await PostModel.getPostById(postId, currentUserId);
       return res.json(post);
     } catch (error) {
       console.error("Error fetching post:", error);
@@ -125,7 +125,7 @@ export const PostController = {
     }
     try {
       // Fetch the post to ensure the user is the author
-      const post = await PostModel.getPostById(postId);
+      const post = await PostModel.getPostById(postId, currentUserId);
 
       if (!post) {
         return res.status(404).json({ message: "Post not found." });
@@ -157,7 +157,7 @@ export const PostController = {
 
     try {
       // Fetch the post to ensure the user is the author
-      const post = await PostModel.getPostById(postId);
+      const post = await PostModel.getPostById(postId, currentUserId);
 
       if (!post) {
         return res.status(404).json({ message: "Post not found." });
