@@ -8,6 +8,7 @@ const userRouter = Router();
 // Get a user's profile with extended information
 userRouter.get(
   "/:id/extended",
+  AuthController.authenticateJWT as RequestHandler,
   UserController.getProfileExtended as RequestHandler
 );
 

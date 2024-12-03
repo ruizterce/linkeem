@@ -21,6 +21,7 @@ import MainHeader from "../components/MainHeader";
 import axios from "axios";
 import { PostContext } from "../contexts/PostContext";
 import ProfilePictureUploader from "../components/ProfilePictureUploader";
+import PostCard from "../components/PostCard";
 
 interface User {
   id: string;
@@ -35,14 +36,25 @@ interface User {
   following: [];
   likes: [];
   posts: [
-    {
+    post: {
       id: string;
       content: string;
       createdAt: string;
-      _count: {
-        comments: number;
-        likes: number;
+      author: {
+        id: string;
+        username: string;
+        profilePicture: string;
+        followers: { id: string }[];
       };
+      comments: {
+        id: string;
+        content: string;
+        createdAt: string;
+        user: { username: string };
+      }[];
+      likes: {
+        userId: string;
+      }[];
     }
   ];
   comments: [
@@ -215,49 +227,11 @@ const UserDetail: React.FC = () => {
 
           <IonSegmentView>
             <IonSegmentContent id="posts" hidden={selectedSegment !== "posts"}>
-              {targetUser.posts.map((post) => (
-                <div
-                  key={post.id}
-                  className="ion-activatable ripple-parent rounded-lg relative dark:bg-gray-800 border-2 border-solid border-gray-100 py-4 px-6 mt-4 hover:border-medium"
-                  onClick={() => {
-                    router.push(`/posts/${post.id}`);
-                  }}
-                >
-                  <IonLabel className="text-primary dark:text-light">
-                    <div className="inline-flex items-center mb-2 ">
-                      <IonAvatar className="w-6 h-6">
-                        <img src={targetUser.profilePicture} alt="" />
-                      </IonAvatar>
-                      <h1 className="font-semibold text-xl ml-2">
-                        {targetUser.username}
-                      </h1>
-                    </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">
-                      {post.content}
-                    </p>
-                    <div className="w-full flex justify-between items-center">
-                      <div>
-                        <span className="text-sm text-primary dark:text-light">
-                          {post._count.comments} Comments
-                        </span>
-                        <span className="text-medium"> | </span>
-                        <span className="text-sm text-secondary dark:text-light">
-                          {post._count.likes} Likes
-                        </span>
-                      </div>
-
-                      <sub className="text-medium">
-                        {new Date(post.createdAt).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                        })}
-                      </sub>
-                    </div>
-                  </IonLabel>
-                  <IonRippleEffect className="rounded-md"></IonRippleEffect>
-                </div>
-              ))}
+              <div className="py-4">
+                {targetUser.posts.map((post) => (
+                  <PostCard key={post.id} post={post} />
+                ))}
+              </div>
             </IonSegmentContent>
             <IonSegmentContent
               id="comments"
@@ -302,7 +276,7 @@ const UserDetail: React.FC = () => {
               id="followers"
               hidden={selectedSegment !== "followers"}
             >
-              <div className="py-2">
+              <div className="py-4">
                 {targetUser.followers.map(({ follower }) => (
                   <IonChip
                     key={follower.id}

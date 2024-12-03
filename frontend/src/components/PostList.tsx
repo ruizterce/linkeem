@@ -1,10 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import {
-  IonLabel,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
-  IonRippleEffect,
-  IonAvatar,
   useIonRouter,
   useIonToast,
   IonIcon,
@@ -14,12 +11,9 @@ import {
 import { AuthContext } from "../contexts/AuthContext";
 import { unfollowUser, followUser } from "../api/user";
 import { PostContext } from "../contexts/PostContext";
+import PostCard from "./PostCard";
 import axios from "axios";
-import {
-  chatbubbleOutline,
-  personAddOutline,
-  personRemove,
-} from "ionicons/icons";
+import { chatbubbleOutline } from "ionicons/icons";
 
 interface Post {
   id: string;
@@ -121,82 +115,7 @@ const PostList: React.FC<PostListProps> = ({ posts, loadMore, hasMore }) => {
       </IonFab>
 
       {posts.map((post) => (
-        <div
-          key={post.id}
-          className=" rounded-lg relative dark:bg-gray-800 border-2 border-solid border-gray-100 py-4 px-6 mb-4 hover:border-medium"
-          onClick={() => {
-            router.push(`/posts/${post.id}`);
-          }}
-        >
-          <IonLabel className="text-primary dark:text-light ">
-            <div className="flex items-center mb-2">
-              <div
-                className="inline-flex items-center  rounded-3xl pr-2 hover:bg-primary hover:text-light cursor-pointer"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  router.push(`/users/${post.author.id}`);
-                }}
-              >
-                <IonAvatar className="w-6 h-6">
-                  <img
-                    src={
-                      post.author.profilePicture || "default-profile-pic.jpg"
-                    }
-                    alt=""
-                  />
-                </IonAvatar>
-                <h1 className="font-semibold text-xl ml-2">
-                  {post.author.username}
-                </h1>
-              </div>
-              {post.author.id !== user?.id && (
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleFollow(
-                      post.author.id,
-                      followingStatus[post.author.id]
-                    );
-                  }}
-                >
-                  <IonIcon
-                    icon={
-                      followingStatus[post.author.id]
-                        ? personRemove
-                        : personAddOutline
-                    }
-                    style={{ transform: "translateY(2px)" }}
-                  ></IonIcon>
-                </button>
-              )}
-            </div>
-            <div className="ion-activatable ripple-parent">
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                {post.content}
-              </p>
-              <div className="w-full flex justify-between items-center">
-                <div>
-                  <span className="text-sm text-primary dark:text-light">
-                    {post.comments.length} Comments
-                  </span>
-                  <span className="text-medium"> | </span>
-                  <span className="text-sm text-secondary dark:text-light">
-                    {post.likes.length} Likes
-                  </span>
-                </div>
-
-                <sub className="text-medium">
-                  {new Date(post.createdAt).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  })}
-                </sub>
-              </div>
-              <IonRippleEffect className="rounded-md"></IonRippleEffect>
-            </div>
-          </IonLabel>
-        </div>
+        <PostCard key={post.id} post={post} />
       ))}
 
       <IonInfiniteScroll

@@ -43,7 +43,7 @@ export const UserModel = {
   },
 
   // Fetch user by ID
-  findByIdExtended: async (id: string) => {
+  findByIdExtended: async (id: string, currentUserId: string) => {
     return await prisma.user.findUnique({
       where: { id },
       include: {
@@ -52,10 +52,17 @@ export const UserModel = {
             id: true,
             content: true,
             createdAt: true,
-            _count: {
+            comments: true,
+            likes: true,
+            author: {
               select: {
-                comments: true,
-                likes: true,
+                id: true,
+                username: true,
+                profilePicture: true,
+                followers: {
+                  where: { followerId: currentUserId },
+                  select: { id: true },
+                },
               },
             },
           },

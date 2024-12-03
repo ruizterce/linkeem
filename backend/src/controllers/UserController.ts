@@ -72,9 +72,14 @@ export const UserController = {
   // Handle user profile retrieval with extended information
   getProfileExtended: async (req: Request, res: Response) => {
     const userId = req.params.id;
+    const currentUserId = req.user?.id;
+
+    if (!currentUserId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
 
     try {
-      const user = await UserModel.findByIdExtended(userId);
+      const user = await UserModel.findByIdExtended(userId, currentUserId);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
