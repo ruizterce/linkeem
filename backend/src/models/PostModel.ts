@@ -4,7 +4,11 @@ const prisma = new PrismaClient();
 
 export const PostModel = {
   // Create a new post
-  create: async (data: { content: string; authorId: string }) => {
+  create: async (data: {
+    content: string;
+    imgUrl: string;
+    authorId: string;
+  }) => {
     return await prisma.post.create({
       data,
     });

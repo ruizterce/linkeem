@@ -51,6 +51,7 @@ export const UserModel = {
           select: {
             id: true,
             content: true,
+            imgUrl: true,
             createdAt: true,
             comments: true,
             likes: true,
@@ -66,6 +67,9 @@ export const UserModel = {
               },
             },
           },
+          orderBy: {
+            createdAt: "desc",
+          },
         },
         followers: {
           select: {
@@ -80,7 +84,11 @@ export const UserModel = {
         },
         following: true,
         likes: true,
-        comments: true,
+        comments: {
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
       },
     });
   },

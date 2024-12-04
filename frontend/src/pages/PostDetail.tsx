@@ -34,6 +34,7 @@ import { unfollowUser, followUser } from "../api/user";
 interface Post {
   id: string;
   content: string;
+  imgUrl: string;
   createdAt: string;
   author: {
     id: string;
@@ -216,6 +217,13 @@ const PostDetail: React.FC = () => {
                 </button>
               )}
             </div>
+            {post.imgUrl && (
+              <img
+                src={post.imgUrl}
+                alt={post.imgUrl}
+                className="my-2 rounded-lg max-w-full h-auto max-h-screen bg-cover justify-self-center"
+              />
+            )}
             <p className="text-xl text-gray-600 dark:text-gray-300">
               {post.content}
             </p>

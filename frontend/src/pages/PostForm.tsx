@@ -4,6 +4,7 @@ import { PostContext } from "../contexts/PostContext";
 import {
   IonButton,
   IonContent,
+  IonInput,
   IonPage,
   IonTextarea,
   useIonRouter,
@@ -16,6 +17,7 @@ import MainHeader from "../components/MainHeader";
 const PostForm: React.FC = () => {
   const { user } = useContext(AuthContext);
   const { triggerRefresh } = useContext(PostContext);
+  const [postImg, setPostImg] = useState("");
   const [postContent, setPostContent] = useState("");
   const [present] = useIonToast();
   const router = useIonRouter();
@@ -36,7 +38,7 @@ const PostForm: React.FC = () => {
     }
 
     try {
-      const data = await postPost(postContent);
+      const data = await postPost(postContent, postImg);
       showToast("Post Created", "success");
       triggerRefresh();
       router.push("/feed", "back");
@@ -59,6 +61,21 @@ const PostForm: React.FC = () => {
       <MainHeader title={"New Post"} />
       <IonContent className="ion-padding">
         <div className="w-full flex flex-col ion-align-items-center">
+          <IonInput
+            type="text"
+            label="Image URL"
+            labelPlacement="stacked"
+            value={postImg}
+            placeholder="(Optional) Enter an image URL"
+            onIonInput={(e) => setPostImg(e.detail.value!)}
+          />
+          {postImg && (
+            <img
+              src={postImg}
+              alt="Image not found"
+              className="my-4 rounded-lg max-w-full max-h-80 bg-cover"
+            />
+          )}
           <IonTextarea
             placeholder="What's on your mind?"
             value={postContent}

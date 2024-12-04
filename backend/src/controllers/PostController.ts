@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { PostModel } from "../models/PostModel";
 import { LikeModel } from "../models/LikeModel";
 import { body, ValidationChain, validationResult } from "express-validator";
+import axios from "axios";
 
 export const PostController = {
   // Fetch recent posts
@@ -82,7 +83,7 @@ export const PostController = {
   // Create a new post
   createPost: async (req: Request, res: Response) => {
     const currentUserId = req.user?.id;
-    const { content } = req.body;
+    const { content, imgUrl } = req.body;
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -93,9 +94,20 @@ export const PostController = {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
+    if (imgUrl) {
+      const isValidImage = await validateImageUrl(imgUrl);
+      if (!isValidImage) {
+        return res.status(400).json({
+          message:
+            "Invalid image URL. Please provide a valid link to an image or leave the field empty",
+        });
+      }
+    }
+
     try {
       const newPost = await PostModel.create({
         content,
+        imgUrl: imgUrl || null,
         authorId: currentUserId,
       });
       return res.status(201).json(newPost);
@@ -226,4 +238,21 @@ export const PostController = {
       return res.status(500).json({ message: "Error unliking post." });
     }
   },
+};
+
+export const validateImageUrl = async (url: string): Promise<boolean> => {
+  try {
+    const response = await axios.head(url, { timeout: 5000 }); // 5 seconds timeout
+    const contentType = response.headers["content-type"];
+    return contentType?.startsWith("image/");
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      console.error(`Axios error validating image URL: ${url}`, err.message);
+    } else if (err instanceof Error) {
+      console.error(`General error validating image URL: ${url}`, err.message);
+    } else {
+      console.error(`Unknown error validating image URL: ${url}`, err);
+    }
+    return false;
+  }
 };

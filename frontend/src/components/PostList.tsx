@@ -18,6 +18,7 @@ import { chatbubbleOutline } from "ionicons/icons";
 interface Post {
   id: string;
   content: string;
+  imgUrl: string;
   createdAt: string;
   author: {
     id: string;

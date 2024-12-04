@@ -11,6 +11,7 @@ interface PostCardProps {
   post: {
     id: string;
     content: string;
+    imgUrl: string;
     createdAt: string;
     author: {
       id: string;
@@ -109,7 +110,14 @@ const PostCard: React.FC<PostCardProps> = ({ post, onFollowToggle }) => {
             </button>
           )}
         </div>
-        <div className="ion-activatable ripple-parent">
+        <div className="ion-activatable ripple-parent flex-col">
+          {post.imgUrl && (
+            <img
+              src={post.imgUrl}
+              alt={post.imgUrl}
+              className="my-2 rounded-lg max-w-full h-auto max-h-screen bg-cover justify-self-center"
+            />
+          )}
           <p className="text-sm text-gray-600 dark:text-gray-300">
             {post.content}
           </p>

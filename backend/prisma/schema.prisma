@@ -29,6 +29,7 @@ model User {
 model Post {
   id        String   @id @default(cuid())
   content   String
+  imgUrl    String?
   createdAt DateTime @default(now())
   authorId  String
   author    User     @relation(fields: [authorId], references: [id])

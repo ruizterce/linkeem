@@ -49,7 +49,7 @@ export const fetchPostById = async (postId: string) => {
   return response.data;
 };
 
-export const postPost = async (content: string) => {
+export const postPost = async (content: string, imgUrl?: string) => {
   const token = localStorage.getItem("token");
   if (!token) {
     throw new Error("User is not authenticated");
@@ -57,7 +57,7 @@ export const postPost = async (content: string) => {
 
   const response = await axios.post(
     `${API_BASE_URL}/posts`,
-    { content },
+    { content, imgUrl },
     {
       headers: {
         Authorization: `Bearer ${token}`,
