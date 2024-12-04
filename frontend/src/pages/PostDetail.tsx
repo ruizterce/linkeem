@@ -5,7 +5,6 @@ import {
   IonFab,
   IonFabButton,
   IonIcon,
-  IonItem,
   IonLabel,
   IonList,
   IonModal,
@@ -73,6 +72,8 @@ const PostDetail: React.FC = () => {
   const [hasFollowed, setHasFollowed] = useState<boolean>(false);
   const [commentContent, setCommentContent] = useState("");
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
+  const [isImageFullscreen, setIsImageFullscreen] = useState(false); // State for fullscreen image view
+  const [selectedImage, setSelectedImage] = useState<string>(""); // To store selected image URL
   const [present] = useIonToast();
   const router = useIonRouter();
 
@@ -135,7 +136,6 @@ const PostDetail: React.FC = () => {
         console.error("Error posting:", errorMessage);
         showToast(errorMessage, "danger");
       } else {
-        // For non-Axios errors
         console.error("Unexpected error:", error);
         showToast("An unexpected error occurred", "danger");
       }
@@ -167,7 +167,6 @@ const PostDetail: React.FC = () => {
         console.error("Error following/unfollowing user:", errorMessage);
         showToast(errorMessage, "danger");
       } else {
-        // For non-Axios errors
         console.error("Unexpected error:", error);
         showToast("An unexpected error occurred", "danger");
       }
@@ -217,13 +216,23 @@ const PostDetail: React.FC = () => {
                 </button>
               )}
             </div>
+
+            {/* Image click handler */}
             {post.imgUrl && (
-              <img
-                src={post.imgUrl}
-                alt={post.imgUrl}
-                className="my-2 rounded-lg max-w-full h-auto max-h-screen bg-cover justify-self-center"
-              />
+              <div
+                onClick={() => {
+                  setSelectedImage(post.imgUrl);
+                  setIsImageFullscreen(true);
+                }}
+              >
+                <img
+                  src={post.imgUrl}
+                  alt={post.imgUrl}
+                  className="my-2 rounded-lg max-w-full h-auto max-h-screen bg-cover justify-self-center cursor-pointer"
+                />
+              </div>
             )}
+
             <p className="text-xl text-gray-600 dark:text-gray-300">
               {post.content}
             </p>
@@ -237,6 +246,8 @@ const PostDetail: React.FC = () => {
                 minute: "numeric",
               })}
             </sub>
+
+            {/* Like and Comment Section */}
             <div className="flex mt-4 ion-align-items-center gap-2">
               <div className="flex flex-col ion-justify-content-center">
                 <IonButton
@@ -260,7 +271,7 @@ const PostDetail: React.FC = () => {
                   <div key={comment.id} className="mt-2 text-sm">
                     <div className="mb-2 text-primary dark:text-light">
                       <div
-                        className="inline-flex items-center mb-2 rounded-3xl pr-2 hover:bg-primary hover:text-light cursor-pointer"
+                        className="inline-flex items-center mb-2 rounded-3xl cursor-pointer hover:bg-primary hover:text-light"
                         onClick={(e) => {
                           e.stopPropagation();
                           router.push(`/users/${comment.user.id}`);
@@ -297,6 +308,20 @@ const PostDetail: React.FC = () => {
           </IonLabel>
         </div>
 
+        {/* Full-Screen Image Viewer */}
+        {isImageFullscreen && (
+          <div
+            className="flex items-center justify-center fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 z-50 overflow-auto"
+            onClick={() => setIsImageFullscreen(false)}
+          >
+            <img
+              src={selectedImage}
+              alt="Full Image"
+              className="max-w-none max-h-none object-none"
+            />
+          </div>
+        )}
+
         {/* Create Comment Modal */}
         <IonFab
           horizontal="end"
@@ -310,6 +335,8 @@ const PostDetail: React.FC = () => {
             <IonIcon icon={chatbubblesOutline}></IonIcon>
           </IonFabButton>
         </IonFab>
+
+        {/* Comment Modal */}
         <IonModal
           isOpen={isCommentModalOpen}
           onDidDismiss={() => setIsCommentModalOpen(false)}
