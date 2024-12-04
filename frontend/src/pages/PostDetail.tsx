@@ -184,8 +184,8 @@ const PostDetail: React.FC = () => {
   return (
     <IonPage>
       <MainHeader title={"Post Details"} />
-      <IonContent>
-        <div key={post.id} className="dark:bg-gray-800 p-4">
+      <IonContent className="ion-padding">
+        <div key={post.id} className="dark:bg-gray-800 ">
           <IonLabel className="text-primary dark:text-light">
             <div className="flex items-center mb-2">
               <div
@@ -246,10 +246,10 @@ const PostDetail: React.FC = () => {
               <div className="text-xl text-secondary">{post.likes.length}</div>
               <LikesStack post={post} />
             </div>
-            <div className="mt-4 border-dotted border-t-2">
-              <IonList className="space-y-4" lines="none">
+            <div className="mt-4 pt-4 border-dotted border-t-2">
+              <div className="space-y-4">
                 {post.comments.map((comment) => (
-                  <IonItem key={comment.id} className="mt-2 text-sm">
+                  <div key={comment.id} className="mt-2 text-sm">
                     <div className="mb-2 text-primary dark:text-light">
                       <div
                         className="inline-flex items-center mb-2 rounded-3xl pr-2 hover:bg-primary hover:text-light cursor-pointer"
@@ -282,9 +282,9 @@ const PostDetail: React.FC = () => {
                         )}
                       </sub>
                     </div>
-                  </IonItem>
+                  </div>
                 ))}
-              </IonList>
+              </div>
             </div>
           </IonLabel>
         </div>

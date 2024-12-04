@@ -424,3 +424,17 @@
   font-weight: 100;
   font-style: italic;
 }
+
+/* Media Queries */
+
+@media only screen and (min-width: 600px) {
+  :root {
+    --ion-padding: 24px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  :root {
+    --ion-padding: 32px;
+  }
+}
