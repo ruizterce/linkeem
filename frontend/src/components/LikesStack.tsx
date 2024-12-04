@@ -1,19 +1,12 @@
 import { IonChip, IonAvatar, IonLabel } from "@ionic/react";
 import { useEffect, useState } from "react";
+import { Like, Post } from "@/types";
 
-interface Like {
-  user: {
-    id: string;
-    username: string;
-    profilePicture: string;
-  };
+interface LikesStackProps {
+  post: Post;
 }
 
-interface Post {
-  likes: Like[];
-}
-
-const LikesStack: React.FC<{ post: Post }> = ({ post }) => {
+const LikesStack: React.FC<LikesStackProps> = ({ post }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {

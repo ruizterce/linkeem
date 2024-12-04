@@ -6,22 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import { verifyToken } from "../api/auth";
-
-interface User {
-  id: string;
-  username: string;
-  email: string;
-  profilePicture: string;
-  date: string;
-}
-
-interface AuthContextType {
-  user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  triggerRefresh: () => void;
-}
+import { User, AuthContextType } from "@/types";
 
 export const AuthContext = createContext<AuthContextType>({
   user: null,
@@ -52,7 +37,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           username: response.user.username,
           email: response.user.email,
           profilePicture: response.user.profilePicture,
-          date: response.user.date,
         });
       } catch (error) {
         console.error("Token verification failed", error);

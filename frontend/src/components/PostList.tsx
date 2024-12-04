@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React from "react";
 import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
@@ -6,37 +6,9 @@ import {
   IonFab,
   IonFabButton,
 } from "@ionic/react";
-import { AuthContext } from "../contexts/AuthContext";
 import PostCard from "./PostCard";
 import { chatbubbleOutline } from "ionicons/icons";
-
-interface Post {
-  id: string;
-  content: string;
-  imgUrl: string;
-  createdAt: string;
-  author: {
-    id: string;
-    username: string;
-    profilePicture: string;
-    followers: { id: string }[];
-  };
-  comments: {
-    id: string;
-    content: string;
-    createdAt: string;
-    user: { username: string };
-  }[];
-  likes: {
-    userId: string;
-  }[];
-}
-
-interface PostListProps {
-  posts: Post[];
-  loadMore: () => Promise<void>;
-  hasMore: boolean;
-}
+import { Post, PostListProps } from "@/types";
 
 const PostList: React.FC<PostListProps> = ({ posts, loadMore, hasMore }) => {
   return (

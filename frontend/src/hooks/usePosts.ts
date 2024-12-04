@@ -1,27 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { PostContext } from "../contexts/PostContext";
-
-interface Post {
-  id: string;
-  content: string;
-  imgUrl: string;
-  createdAt: string;
-  author: {
-    id: string;
-    username: string;
-    profilePicture: string;
-    followers: { id: string }[];
-  };
-  comments: {
-    id: string;
-    content: string;
-    createdAt: string;
-    user: { username: string };
-  }[];
-  likes: {
-    userId: string;
-  }[];
-}
+import { Post } from "@/types";
 
 export const usePosts = (
   fetchPostsMethod: (page: number, limit: number) => Promise<Post[]>

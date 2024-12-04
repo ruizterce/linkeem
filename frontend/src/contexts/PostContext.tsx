@@ -1,9 +1,5 @@
 import React, { createContext, useState, useCallback, ReactNode } from "react";
-
-interface PostContextType {
-  refreshFeed: boolean;
-  triggerRefresh: () => void;
-}
+import { PostContextType } from "@/types";
 
 export const PostContext = createContext<PostContextType>({
   refreshFeed: false,

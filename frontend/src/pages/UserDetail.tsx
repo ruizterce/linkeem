@@ -16,56 +16,14 @@ import {
   IonSegmentView,
   useIonRouter,
   useIonToast,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import MainHeader from "../components/MainHeader";
 import axios from "axios";
 import { PostContext } from "../contexts/PostContext";
 import ProfilePictureUploader from "../components/ProfilePictureUploader";
 import PostCard from "../components/PostCard";
-
-interface User {
-  id: string;
-  username: string;
-  email: string;
-  profilePicture: string;
-  createdAt: string;
-  updatedAt: string;
-  followers: [
-    { follower: { id: string; username: string; profilePicture: string } }
-  ];
-  following: [];
-  likes: [];
-  posts: [
-    post: {
-      id: string;
-      content: string;
-      imgUrl: string;
-      createdAt: string;
-      author: {
-        id: string;
-        username: string;
-        profilePicture: string;
-        followers: { id: string }[];
-      };
-      comments: {
-        id: string;
-        content: string;
-        createdAt: string;
-        user: { username: string };
-      }[];
-      likes: {
-        userId: string;
-      }[];
-    }
-  ];
-  comments: [
-    { id: string; postId: string; content: string; createdAt: string }
-  ];
-}
-
-interface UserDetailParams {
-  userId: string;
-}
+import { User, UserDetailParams } from "@/types";
 
 const UserDetail: React.FC = () => {
   const { user } = useContext(AuthContext);
@@ -145,6 +103,16 @@ const UserDetail: React.FC = () => {
   if (!targetUser) {
     return <div>No target user</div>;
   }
+
+  /*if (
+    !targetUser.followers ||
+    !targetUser.following ||
+    !targetUser.posts ||
+    !targetUser.comments ||
+    !targetUser.likes
+  ) {
+    return <div>Missing data</div>;
+  }*/
   return (
     <IonPage>
       <MainHeader title={targetUser.username} />
@@ -171,7 +139,7 @@ const UserDetail: React.FC = () => {
         <div className="mb-4 grid grid-cols-3 gap-4">
           <div className="text-center">
             <h2 className="font-bold text-3xl">
-              {targetUser.followers.length}
+              {targetUser.followers ? targetUser.followers.length : "0"}
             </h2>
             <p className="text-sm">Followers</p>
           </div>
@@ -190,23 +158,29 @@ const UserDetail: React.FC = () => {
 
           <div className="text-center">
             <h2 className="font-bold text-3xl">
-              {targetUser.following.length}
+              {targetUser.following ? targetUser.following.length : "0"}
             </h2>
             <p className="text-sm">Following</p>
           </div>
 
           <div className="text-center">
-            <h2 className="font-bold text-2xl">{targetUser.posts.length}</h2>
+            <h2 className="font-bold text-2xl">
+              {targetUser.posts ? targetUser.posts.length : "0"}
+            </h2>
             <p className="text-sm">Posts</p>
           </div>
 
           <div className="text-center">
-            <h2 className="font-bold text-2xl">{targetUser.comments.length}</h2>
+            <h2 className="font-bold text-2xl">
+              {targetUser.comments ? targetUser.comments.length : "0"}
+            </h2>
             <p className="text-sm">Comments</p>
           </div>
 
           <div className="text-center">
-            <h2 className="font-bold text-2xl">{targetUser.likes.length}</h2>
+            <h2 className="font-bold text-2xl">
+              {targetUser.likes ? targetUser.likes.length : "0"}
+            </h2>
             <p className="text-sm">Likes</p>
           </div>
         </div>
@@ -232,82 +206,97 @@ const UserDetail: React.FC = () => {
           <IonSegmentView>
             <IonSegmentContent id="posts" hidden={selectedSegment !== "posts"}>
               <div className="py-4">
-                {targetUser.posts.map((post) => (
-                  <PostCard key={post.id} post={post} />
-                ))}
+                {targetUser.posts ? (
+                  targetUser.posts.map((post) => (
+                    <PostCard key={post.id} post={post} />
+                  ))
+                ) : (
+                  <div>No posts found for this user</div>
+                )}
               </div>
             </IonSegmentContent>
             <IonSegmentContent
               id="comments"
               hidden={selectedSegment !== "comments"}
             >
-              {targetUser.comments.map((comment) => (
-                <div
-                  key={comment.id}
-                  className="ion-activatable ripple-parent rounded-lg relative dark:bg-gray-800 border-2 border-solid border-gray-100 py-4 px-6 mt-4 hover:border-medium"
-                  onClick={() => {
-                    router.push(`/posts/${comment.postId}`);
-                  }}
-                >
-                  <div className="mb-2 text-primary dark:text-light">
-                    <div className="inline-flex items-center mb-2 rounded-3xl pr-2 hover:bg-primary hover:text-light cursor-pointer">
-                      <IonAvatar className="w-6 h-6">
-                        <img src={targetUser.profilePicture} alt="" />
-                      </IonAvatar>
-                      <span className="font-bold text-md ml-2">
-                        {targetUser.username}
-                      </span>
+              {targetUser.comments ? (
+                targetUser.comments.map((comment) => (
+                  <div
+                    key={comment.id}
+                    className="ion-activatable ripple-parent rounded-lg relative dark:bg-gray-800 border-2 border-solid border-gray-100 py-4 px-6 mt-4 hover:border-medium"
+                    onClick={() => {
+                      router.push(`/posts/${comment.postId}`);
+                    }}
+                  >
+                    <div className="mb-2 text-primary dark:text-light">
+                      <div className="inline-flex items-center mb-2 rounded-3xl pr-2 hover:bg-primary hover:text-light cursor-pointer">
+                        <IonAvatar className="w-6 h-6">
+                          <img src={targetUser.profilePicture} alt="" />
+                        </IonAvatar>
+                        <span className="font-bold text-md ml-2">
+                          {targetUser.username}
+                        </span>
+                      </div>
+                      <p className="text-gray-600 dark:text-gray-300">
+                        {comment.content}
+                      </p>
+                      <sub className="text-medium">
+                        {new Date(comment.createdAt).toLocaleDateString(
+                          "en-US",
+                          {
+                            weekday: "long",
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                            hour: "numeric",
+                            minute: "numeric",
+                          }
+                        )}
+                      </sub>
                     </div>
-                    <p className="text-gray-600 dark:text-gray-300">
-                      {comment.content}
-                    </p>
-                    <sub className="text-medium">
-                      {new Date(comment.createdAt).toLocaleDateString("en-US", {
-                        weekday: "long",
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                        hour: "numeric",
-                        minute: "numeric",
-                      })}
-                    </sub>
+                    <IonRippleEffect className="rounded"></IonRippleEffect>
                   </div>
-                  <IonRippleEffect className="rounded"></IonRippleEffect>
-                </div>
-              ))}
+                ))
+              ) : (
+                <div>No comments found for this user</div>
+              )}
             </IonSegmentContent>
             <IonSegmentContent
               id="followers"
               hidden={selectedSegment !== "followers"}
             >
               <div className="py-4">
-                {targetUser.followers.map(({ follower }) => (
-                  <IonChip
-                    key={follower.id}
-                    className="text-light bg-primary hover:bg-light hover:text-primary cursor-pointer"
-                    onClick={() => {
-                      router.push(`/users/${follower.id}`);
-                    }}
-                  >
-                    <IonAvatar>
-                      <img
-                        alt={follower.username}
-                        src={follower.profilePicture}
-                      />
-                    </IonAvatar>
-                    <IonLabel
-                      className="font-bold "
-                      style={{
-                        maxWidth: "200px",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
+                {targetUser.followers ? (
+                  targetUser.followers.map(({ follower }) => (
+                    <IonChip
+                      key={follower.id}
+                      className="text-light bg-primary hover:bg-light hover:text-primary cursor-pointer"
+                      onClick={() => {
+                        router.push(`/users/${follower.id}`);
                       }}
                     >
-                      {follower.username}
-                    </IonLabel>
-                  </IonChip>
-                ))}
+                      <IonAvatar>
+                        <img
+                          alt={follower.username}
+                          src={follower.profilePicture}
+                        />
+                      </IonAvatar>
+                      <IonLabel
+                        className="font-bold "
+                        style={{
+                          maxWidth: "200px",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {follower.username}
+                      </IonLabel>
+                    </IonChip>
+                  ))
+                ) : (
+                  <div>No followers found for this user</div>
+                )}
               </div>
             </IonSegmentContent>
           </IonSegmentView>

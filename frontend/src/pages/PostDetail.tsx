@@ -30,40 +30,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
 import MainHeader from "../components/MainHeader";
 import { unfollowUser, followUser } from "../api/user";
-
-interface Post {
-  id: string;
-  content: string;
-  imgUrl: string;
-  createdAt: string;
-  author: {
-    id: string;
-    username: string;
-    profilePicture: string;
-    followers: [];
-  };
-  comments: {
-    id: string;
-    content: string;
-    createdAt: string;
-    user: {
-      id: string;
-      username: string;
-      profilePicture: string;
-    };
-  }[];
-  likes: {
-    user: {
-      id: string;
-      username: string;
-      profilePicture: string;
-    };
-  }[];
-}
-
-interface PostDetailParams {
-  postId: string;
-}
+import { Post, PostDetailParams } from "@/types";
 
 const PostDetail: React.FC = () => {
   const { user } = useContext(AuthContext);

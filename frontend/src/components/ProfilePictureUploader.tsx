@@ -1,16 +1,7 @@
 import React, { useContext, useRef, useState } from "react";
 import { uploadProfilePicture } from "../api/user";
 import { AuthContext } from "../contexts/AuthContext";
-
-interface User {
-  id: string;
-  username: string;
-  profilePicture: string;
-}
-
-interface ProfilePictureUploaderProps {
-  targetUser: User;
-}
+import { ProfilePictureUploaderProps } from "@/types";
 
 const ProfilePictureUploader: React.FC<ProfilePictureUploaderProps> = ({
   targetUser,

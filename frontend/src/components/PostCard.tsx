@@ -6,28 +6,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import { unfollowUser, followUser } from "../api/user";
 import { PostContext } from "../contexts/PostContext";
 import axios from "axios";
-
-interface PostCardProps {
-  post: {
-    id: string;
-    content: string;
-    imgUrl: string;
-    createdAt: string;
-    author: {
-      id: string;
-      username: string;
-      profilePicture: string;
-      followers: { id: string }[];
-    };
-    comments: {
-      id: string;
-      content: string;
-      createdAt: string;
-      user: { username: string };
-    }[];
-    likes: { userId: string }[];
-  };
-}
+import { PostCardProps } from "@/types";
 
 const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const { user } = useContext(AuthContext);
@@ -35,7 +14,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const [present] = useIonToast();
   const router = useIonRouter();
 
-  const isFollowing = post.author.followers.length > 0;
+  const isFollowing = post.author.followers && post.author.followers.length > 0;
 
   const showToast = (message: string, color: string) => {
     present({
