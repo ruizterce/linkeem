@@ -39,6 +39,7 @@ interface User {
     post: {
       id: string;
       content: string;
+      imgUrl: string;
       createdAt: string;
       author: {
         id: string;
@@ -92,6 +93,9 @@ const UserDetail: React.FC = () => {
     loadUser(userId);
   }, [userId]);
 
+  useIonViewWillEnter(() => {
+    loadUser(userId);
+  });
   // Reset segment to "posts" whenever targetUser changes
   useEffect(() => {
     setSelectedSegment("posts");

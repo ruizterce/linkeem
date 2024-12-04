@@ -4,6 +4,7 @@ import { PostContext } from "../contexts/PostContext";
 interface Post {
   id: string;
   content: string;
+  imgUrl: string;
   createdAt: string;
   author: {
     id: string;

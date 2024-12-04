@@ -27,18 +27,15 @@ interface PostCardProps {
     }[];
     likes: { userId: string }[];
   };
-  onFollowToggle?: () => void; // Optional callback for follow/unfollow actions
 }
 
-const PostCard: React.FC<PostCardProps> = ({ post, onFollowToggle }) => {
+const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const { user } = useContext(AuthContext);
   const { triggerRefresh } = useContext(PostContext);
   const [present] = useIonToast();
   const router = useIonRouter();
 
-  const isFollowing = post.author.followers.some(
-    (follower) => follower.id === user?.id
-  );
+  const isFollowing = post.author.followers.length > 0;
 
   const showToast = (message: string, color: string) => {
     present({
@@ -59,7 +56,6 @@ const PostCard: React.FC<PostCardProps> = ({ post, onFollowToggle }) => {
         showToast("User Followed", "success");
       }
       triggerRefresh();
-      if (onFollowToggle) onFollowToggle();
     } catch (error) {
       if (axios.isAxiosError(error)) {
         showToast(

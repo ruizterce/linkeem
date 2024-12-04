@@ -12,8 +12,9 @@ import {
   IonTextarea,
   useIonRouter,
   useIonToast,
+  useIonViewWillEnter,
 } from "@ionic/react";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { fetchPostById, likePost, postComment, unlikePost } from "../api/post";
 import { useParams } from "react-router";
 import {
@@ -100,6 +101,10 @@ const PostDetail: React.FC = () => {
   useEffect(() => {
     loadPost(postId);
   }, [postId]);
+
+  useIonViewWillEnter(() => {
+    loadPost(postId);
+  });
 
   const handleLike = async () => {
     const hasLiked = post?.likes.some(
