@@ -36,12 +36,28 @@ async function main() {
   }
 
   // Create posts
+  // Helper function to generate the image URL
+  const generateImageUrl = (): string | null => {
+    if (Math.random() < 0.5) {
+      // Generate random width and height
+      const width = Math.floor(Math.random() * (1920 - 800 + 1)) + 800;
+      const height = Math.floor(Math.random() * (1080 - 600 + 1)) + 600;
+
+      // Generate a Picsum URL with random width and height
+      return `https://picsum.photos/seed/${faker.string.uuid()}/${width}/${height}`;
+    }
+
+    // 50% chance to return null
+    return null;
+  };
+
   const posts = [];
   for (let i = 0; i < 40; i++) {
     const post = await prisma.post.create({
       data: {
         content: faker.lorem.paragraph(),
         authorId: users[Math.floor(Math.random() * users.length)].id,
+        imgUrl: generateImageUrl(),
       },
     });
     posts.push(post);
