@@ -6,7 +6,6 @@ import {
   IonFabButton,
   IonIcon,
   IonLabel,
-  IonList,
   IonModal,
   IonPage,
   IonTextarea,
@@ -40,8 +39,8 @@ const PostDetail: React.FC = () => {
   const [hasFollowed, setHasFollowed] = useState<boolean>(false);
   const [commentContent, setCommentContent] = useState("");
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
-  const [isImageFullscreen, setIsImageFullscreen] = useState(false); // State for fullscreen image view
-  const [selectedImage, setSelectedImage] = useState<string>(""); // To store selected image URL
+  const [isImageFullscreen, setIsImageFullscreen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string>("");
   const [present] = useIonToast();
   const router = useIonRouter();
 
@@ -192,6 +191,7 @@ const PostDetail: React.FC = () => {
             {/* Image click handler */}
             {post.imgUrl && (
               <div
+                className="my-4"
                 onClick={() => {
                   setSelectedImage(post.imgUrl);
                   setIsImageFullscreen(true);
@@ -282,15 +282,18 @@ const PostDetail: React.FC = () => {
 
         {/* Full-Screen Image Viewer */}
         {isImageFullscreen && (
-          <div
-            className="flex items-center justify-center fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 z-50 overflow-auto"
-            onClick={() => setIsImageFullscreen(false)}
-          >
-            <img
-              src={selectedImage}
-              alt="Full Image"
-              className="max-w-none max-h-none object-none"
-            />
+          <div className="fixed top-0 left-0 w-full h-full py-0 box-border overflow-hidden bg-black z-50">
+            <div
+              className=" flex w-full h-full pt-14 bg-black bg-opacity-80 overflow-auto z-50"
+              onClick={() => setIsImageFullscreen(false)}
+            >
+              <img
+                src={selectedImage}
+                alt="Full Image"
+                className="max-w-none max-h-none object-none m-auto"
+                style={{ verticalAlign: "middle" }}
+              />
+            </div>
           </div>
         )}
 

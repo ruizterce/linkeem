@@ -49,8 +49,9 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 
   return (
     <div
-      className="rounded-lg relative dark:bg-gray-800 border-2 border-solid border-gray-100 py-4 px-6 mb-4 hover:border-medium"
+      className="shadow w-full lg:max-w-xl max-h-full rounded-lg relative dark:bg-gray-800 border-2 border-solid border-gray-100 py-4 px-6 hover:border-medium"
       onClick={() => router.push(`/posts/${post.id}`)}
+      style={{ height: "fit-content" }}
     >
       <IonLabel className="text-primary dark:text-light">
         <div className="flex items-center mb-2">
@@ -90,10 +91,10 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
             <img
               src={post.imgUrl}
               alt={post.imgUrl}
-              className="my-2 rounded-lg max-w-full h-auto max-h-screen bg-cover justify-self-center"
+              className="rounded-lg max-w-full h-auto max-h-screen bg-cover justify-self-center"
             />
           )}
-          <p className="text-sm text-gray-600 dark:text-gray-300">
+          <p className="my-4 text-sm text-gray-600 dark:text-gray-300">
             {post.content}
           </p>
           <div className="w-full flex justify-between items-center">

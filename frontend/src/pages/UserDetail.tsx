@@ -189,8 +189,8 @@ const UserDetail: React.FC = () => {
           <IonSegment
             value={selectedSegment}
             onIonChange={(e) => setSelectedSegment(String(e.detail.value))}
-            className="sticky bg-opacity-100 z-10 shadow-sm"
-            style={{ top: "-18px", "--background": "#ffffff" }}
+            className="sticky bg-opacity-100 z-10 shadow-sm translate-y-4 sm:translate-y-2 md:translate-y-0"
+            style={{ top: "-32px", "--background": "#ffffff" }}
           >
             <IonSegmentButton value="posts" contentId="posts">
               <IonLabel className="text-xs">Posts</IonLabel>
@@ -205,7 +205,7 @@ const UserDetail: React.FC = () => {
 
           <IonSegmentView>
             <IonSegmentContent id="posts" hidden={selectedSegment !== "posts"}>
-              <div className="py-4">
+              <div className="py-4 flex flex-col items-center gap-4">
                 {targetUser.posts ? (
                   targetUser.posts.map((post) => (
                     <PostCard key={post.id} post={post} />
