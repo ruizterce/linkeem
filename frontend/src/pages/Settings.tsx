@@ -39,7 +39,7 @@ const Settings: React.FC = () => {
           <IonItem>
             <IonToggle>Dark Mode</IonToggle>
           </IonItem>
-          <IonItem button>
+          <IonItem button routerLink="/about">
             <IonLabel>About</IonLabel>
             <IonIcon
               aria-hidden="true"
