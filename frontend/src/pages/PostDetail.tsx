@@ -156,8 +156,8 @@ const PostDetail: React.FC = () => {
     <IonPage>
       <MainHeader title={"Post Details"} />
       <IonContent className="ion-padding">
-        <div key={post.id} className="dark:bg-gray-800 ">
-          <IonLabel className="text-primary dark:text-light">
+        <div key={post.id}>
+          <IonLabel className="text-primary">
             <div className="flex items-center mb-2">
               <div
                 className="inline-flex items-center rounded-3xl pr-2 hover:bg-primary hover:text-light cursor-pointer"
@@ -241,7 +241,7 @@ const PostDetail: React.FC = () => {
               <div className="space-y-4">
                 {post.comments.map((comment) => (
                   <div key={comment.id} className="mt-2 text-sm">
-                    <div className="mb-2 text-primary dark:text-light">
+                    <div className="mb-2 text-primary">
                       <div
                         className="inline-flex items-center mb-2 rounded-3xl cursor-pointer hover:bg-primary hover:text-light"
                         onClick={(e) => {
@@ -329,6 +329,7 @@ const PostDetail: React.FC = () => {
               counter={true}
               maxlength={360}
               autoGrow
+              className="dark:text-text"
             ></IonTextarea>
             <IonButton onClick={handleComment} shape="round">
               Comment

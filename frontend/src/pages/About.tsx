@@ -18,14 +18,14 @@ const About: React.FC = () => {
           <h2 className="text-2xl font-bold text-center text-primary">
             Welcome to Linkeem
           </h2>
-          <p className="text-base leading-relaxed text-gray-700">
+          <p className="text-base leading-relaxed">
             Linkeem is a dynamic social media platform hobby project where you
             can share your thoughts, connect with others, and engage with the
             community.
           </p>
 
           <h3 className="text-xl font-semibold text-secondary">Our Features</h3>
-          <ul className="list-disc list-inside text-gray-700 space-y-1">
+          <ul className="list-disc list-inside space-y-1">
             <li>
               🔐 Secure user authentication with JWT and Passport.js using local
               or GitHub OAuth 2.0 strategy.
@@ -37,7 +37,7 @@ const About: React.FC = () => {
           </ul>
 
           <h3 className="text-xl font-semibold text-secondary">Technology</h3>
-          <p className="text-base leading-relaxed text-gray-700">
+          <p className="text-base leading-relaxed ">
             Powered by modern tools like React, Ionic and Express.js, Linkeem
             delivers a responsive and intuitive user experience across web and
             mobile devices.
@@ -46,7 +46,7 @@ const About: React.FC = () => {
           <h3 className="text-xl font-semibold text-secondary">
             About the Creator
           </h3>
-          <p className="text-base leading-relaxed text-gray-700">
+          <p className="text-base leading-relaxed ">
             Linkeem is crafted with love by{" "}
             <a
               href="https://github.com/ruizterce/linkeem"

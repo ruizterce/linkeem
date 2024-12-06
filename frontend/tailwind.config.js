@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   important: true,
+  darkMode: ["class", "[data-theme='dark']"],
   content: [
     "./src/**/*.{html,ts,tsx,js,jsx}",
     "./node_modules/@ionic/angular/dist/**/*.{js,ts}",

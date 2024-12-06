@@ -189,16 +189,28 @@ const UserDetail: React.FC = () => {
           <IonSegment
             value={selectedSegment}
             onIonChange={(e) => setSelectedSegment(String(e.detail.value))}
-            className="sticky bg-opacity-100 z-10 shadow-sm translate-y-4 sm:translate-y-2 md:translate-y-0"
-            style={{ top: "-32px", "--background": "#ffffff" }}
+            className="sticky bg-background z-10 translate-y-4 sm:translate-y-2 md:translate-y-0"
+            style={{ top: "-32px" }}
           >
-            <IonSegmentButton value="posts" contentId="posts">
+            <IonSegmentButton
+              value="posts"
+              contentId="posts"
+              className="bg-background"
+            >
               <IonLabel className="text-xs">Posts</IonLabel>
             </IonSegmentButton>
-            <IonSegmentButton value="comments" contentId="comments">
+            <IonSegmentButton
+              value="comments"
+              contentId="comments"
+              className="bg-background"
+            >
               <IonLabel className="text-xs">Comments</IonLabel>
             </IonSegmentButton>
-            <IonSegmentButton value="followers" contentId="followers">
+            <IonSegmentButton
+              value="followers"
+              contentId="followers"
+              className="bg-background"
+            >
               <IonLabel className="text-xs">Followers</IonLabel>
             </IonSegmentButton>
           </IonSegment>
@@ -223,12 +235,12 @@ const UserDetail: React.FC = () => {
                 targetUser.comments.map((comment) => (
                   <div
                     key={comment.id}
-                    className="ion-activatable ripple-parent rounded-lg relative dark:bg-gray-800 border-2 border-solid border-gray-100 py-4 px-6 mt-4 hover:border-medium"
+                    className="ion-activatable ripple-parent rounded-lg relative border-2 border-solid border-gray-100 py-4 px-6 mt-4 hover:border-medium dark:border-light dark:hover:border-medium"
                     onClick={() => {
                       router.push(`/posts/${comment.postId}`);
                     }}
                   >
-                    <div className="mb-2 text-primary dark:text-light">
+                    <div className="mb-2 text-primary">
                       <div className="inline-flex items-center mb-2 rounded-3xl pr-2 hover:bg-primary hover:text-light cursor-pointer">
                         <IonAvatar className="w-6 h-6">
                           <img src={targetUser.profilePicture} alt="" />

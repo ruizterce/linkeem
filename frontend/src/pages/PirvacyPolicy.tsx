@@ -7,7 +7,7 @@ const PrivacyPolicy: React.FC = () => {
     <IonPage>
       <MainHeader title="Privacy Policy & Disclaimer" />
       <IonContent className="ion-padding">
-        <div className="text-gray-800 space-y-6">
+        <div className=" space-y-6">
           <h2 className="text-2xl font-bold">Privacy Policy</h2>
           <p>
             At Linkeem, we take your privacy seriously and are committed to

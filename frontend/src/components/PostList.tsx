@@ -8,7 +8,7 @@ import {
 } from "@ionic/react";
 import PostCard from "./PostCard";
 import { chatbubbleOutline } from "ionicons/icons";
-import { Post, PostListProps } from "@/types";
+import { PostListProps } from "@/types";
 
 const PostList: React.FC<PostListProps> = ({ posts, loadMore, hasMore }) => {
   return (

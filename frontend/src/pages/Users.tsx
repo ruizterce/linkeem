@@ -76,6 +76,7 @@ const Users: React.FC = () => {
           showClearButton="focus"
           debounce={1000}
           onIonInput={(e) => handleSearch(e)}
+          className="dark:text-text"
         ></IonSearchbar>
 
         <IonList lines="none">

@@ -49,11 +49,11 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 
   return (
     <div
-      className="shadow w-full lg:max-w-xl max-h-full rounded-lg relative dark:bg-gray-800 border-2 border-solid border-gray-100 py-4 px-6 hover:border-medium"
+      className="shadow w-full lg:max-w-xl max-h-full rounded-lg relative border-2 border-solid border-gray-100 py-4 px-6 hover:border-medium dark:border-light dark:hover:border-medium"
       onClick={() => router.push(`/posts/${post.id}`)}
       style={{ height: "fit-content" }}
     >
-      <IonLabel className="text-primary dark:text-light">
+      <IonLabel className="text-primary">
         <div className="flex items-center mb-2">
           <div
             className="inline-flex items-center rounded-3xl pr-2 hover:bg-primary hover:text-light cursor-pointer"
@@ -99,11 +99,11 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
           </p>
           <div className="w-full flex justify-between items-center">
             <div>
-              <span className="text-sm text-primary dark:text-light">
+              <span className="text-sm text-primary ">
                 {post.comments.length} Comments
               </span>
               <span className="text-medium"> | </span>
-              <span className="text-sm text-secondary dark:text-light">
+              <span className="text-sm text-secondary">
                 {post.likes.length} Likes
               </span>
             </div>

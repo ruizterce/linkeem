@@ -11,7 +11,7 @@ import {
   IonToggle,
 } from "@ionic/react";
 import { documentLockOutline, informationCircleOutline } from "ionicons/icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const defaultTab = localStorage.getItem("defaultTab");
 const formattedTab = defaultTab
@@ -19,6 +19,21 @@ const formattedTab = defaultTab
   : "Feed";
 
 const Settings: React.FC = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    const theme = localStorage.getItem("theme") || "light";
+    document.body.setAttribute("data-theme", theme);
+    setIsDarkMode(theme === "dark");
+  }, []);
+
+  const handleDarkModeToggle = (enabled: boolean) => {
+    const theme = enabled ? "dark" : "light";
+    document.body.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+    setIsDarkMode(enabled);
+  };
+
   return (
     <IonPage>
       <MainHeader title="Settings" />
@@ -37,7 +52,12 @@ const Settings: React.FC = () => {
             </IonSelect>
           </IonItem>
           <IonItem>
-            <IonToggle>Dark Mode</IonToggle>
+            <IonToggle
+              checked={isDarkMode}
+              onIonChange={(e) => handleDarkModeToggle(e.detail.checked)}
+            >
+              Dark Mode
+            </IonToggle>
           </IonItem>
           <IonItem button routerLink="/about">
             <IonLabel>About</IonLabel>

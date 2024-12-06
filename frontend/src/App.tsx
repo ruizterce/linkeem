@@ -48,6 +48,9 @@ import AuthCallback from "./pages/AuthCallback";
 
 setupIonicReact();
 
+const theme = localStorage.getItem("theme") || "light";
+document.body.setAttribute("data-theme", theme);
+
 const App: React.FC = () => {
   return (
     <AuthProvider>

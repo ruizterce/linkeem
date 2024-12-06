@@ -56,21 +56,37 @@
     --background-hover: var(--medium);
     --background-focused: var(--medium);
   }
+
+  ion-segment {
+    --background: var(--background);
+  }
+
+  ion-segment-button {
+    --color: var(--dark);
+    --color-activated: var(--medium);
+    --color-hover: var(--dark);
+    --color-focused: var(--light);
+
+    --background: var(--light);
+    --background-activated: var(--dark);
+    --background-hover: var(--medium);
+    --background-focused: var(--medium);
+  }
 }
 
 /* Dark theme colors */
 [data-theme="dark"] {
-  --primary: #00b5ad;
+  --primary: #00a39c;
   --secondary: #ff6f61;
   --success: #64dd17;
   --danger: #e53935;
   --warning: #ffeb3b;
   --info: #1e88e5;
   --light: #2c2c2c;
-  --medium: #464646;
-  --dark: #ffffff;
-  --background: #121212;
-  --text: #e0e0e0;
+  --medium: #6e6e6e;
+  --dark: #fafafa;
+  --background: #222222;
+  --text: #bebebe;
 
   /* Link Ionic's color variables to the custom ones */
   --ion-color-primary: var(--primary);
@@ -80,10 +96,15 @@
   --ion-color-warning: var(--warning);
   --ion-color-info: var(--info);
   --ion-color-light: var(--light);
+  --ion-color-light-contrast: var(--dark);
   --ion-color-medium: var(--medium);
   --ion-color-dark: var(--dark);
+  --ion-color-dark-contrast: var(--light);
   --ion-color-background: var(--background);
   --ion-color-text: var(--text);
+  --ion-text-color: var(--text);
+
+  --ion-background-color: var(--background);
 
   --ion-toolbar-color: var(--light);
   --ion-toolbar-background: var(--secondary);
@@ -111,6 +132,36 @@
     --background-activated: var(--dark);
     --background-hover: var(--medium);
     --background-focused: var(--medium);
+  }
+
+  ion-segment {
+    --background: var(--background);
+  }
+
+  ion-segment-button {
+    --color: var(--dark);
+    --color-activated: var(--medium);
+    --color-hover: var(--dark);
+    --color-focused: var(--light);
+
+    --background: var(--light);
+    --background-activated: var(--dark);
+    --background-hover: var(--medium);
+    --background-focused: var(--medium);
+  }
+
+  ion-tab-button {
+    --color: var(--medium);
+  }
+
+  ion-toggle {
+    --track-background-checked: var(--medium);
+    --handle-background-checked: var(--secondary);
+  }
+
+  ion-item > ion-icon {
+    filter: invert(84%) sepia(1%) saturate(6%) hue-rotate(324deg)
+      brightness(92%) contrast(88%);
   }
 }
 
