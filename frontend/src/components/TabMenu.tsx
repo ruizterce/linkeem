@@ -7,7 +7,7 @@ import {
   IonLabel,
   IonRouterOutlet,
 } from "@ionic/react";
-import { globeOutline, home, person } from "ionicons/icons";
+import { globeOutline, home, person, settings } from "ionicons/icons";
 import { Redirect, Route } from "react-router-dom";
 import Feed from "../pages/Feed";
 import PostForm from "../pages/PostForm";
@@ -15,19 +15,19 @@ import PostDetail from "../pages/PostDetail";
 import UserDetail from "../pages/UserDetail";
 import Users from "../pages/Users";
 import Discover from "../pages/Discover";
-import AuthCallback from "../pages/AuthCallback";
+import Settings from "../pages/Settings";
 
 const TabMenu: React.FC = () => {
   return (
     <IonTabs className="bg-background">
       <IonRouterOutlet>
-        <Route exact path="/auth/callback" component={AuthCallback} />
         <Route exact path="/posts/:postId" component={PostDetail} />
         <Route exact path="/users/:userId" component={UserDetail} />
         <Route exact path="/feed" component={Feed} />
         <Route exact path="/discover" component={Discover} />
         <Route exact path="/post" component={PostForm} />
         <Route exact path="/users" component={Users} />
+        <Route exact path="/settings" component={Settings} />
         <Route exact path="/">
           <Redirect to="/feed" />
         </Route>
@@ -44,6 +44,10 @@ const TabMenu: React.FC = () => {
         <IonTabButton tab="users" href="/users">
           <IonIcon icon={person} />
           <IonLabel>Users</IonLabel>
+        </IonTabButton>
+        <IonTabButton tab="settings" href="/settings">
+          <IonIcon icon={settings} />
+          <IonLabel>Settings</IonLabel>
         </IonTabButton>
       </IonTabBar>
     </IonTabs>
