@@ -29,3 +29,22 @@ export const verifyToken = async (token: string) => {
   });
   return response.data;
 };
+
+export const loginGitHub = async () => {
+  window.location.href = `${API_BASE_URL}/auth/github`;
+};
+
+export const handleGitHubLoginCallback = () => {
+  console.log("handling github callback");
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get("token");
+  console.log(token);
+
+  if (token) {
+    localStorage.setItem("token", token);
+    console.log("Token saved:", token);
+    window.location.href = "/feed";
+  } else {
+    console.error("GitHub login failed: No token received");
+  }
+};

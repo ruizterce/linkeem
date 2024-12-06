@@ -15,11 +15,13 @@ import PostDetail from "../pages/PostDetail";
 import UserDetail from "../pages/UserDetail";
 import Users from "../pages/Users";
 import Discover from "../pages/Discover";
+import AuthCallback from "../pages/AuthCallback";
 
 const TabMenu: React.FC = () => {
   return (
     <IonTabs className="bg-background">
       <IonRouterOutlet>
+        <Route exact path="/auth/callback" component={AuthCallback} />
         <Route exact path="/posts/:postId" component={PostDetail} />
         <Route exact path="/users/:userId" component={UserDetail} />
         <Route exact path="/feed" component={Feed} />

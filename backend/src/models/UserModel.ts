@@ -130,4 +130,29 @@ export const UserModel = {
       take,
     });
   },
+
+  findOrCreateGitHubUser: async (profile: {
+    id: string;
+    username: string;
+    email: any;
+    avatar_url: string;
+  }) => {
+    const { id, username, email, avatar_url } = profile;
+    let user = await prisma.user.findUnique({
+      where: { githubId: id },
+    });
+
+    if (!user) {
+      user = await prisma.user.create({
+        data: {
+          githubId: id,
+          username,
+          email: email || null, // Handle cases where email is not available
+          profilePicture: avatar_url,
+        },
+      });
+    }
+
+    return user;
+  },
 };
