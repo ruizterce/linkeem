@@ -17,6 +17,7 @@ import Users from "../pages/Users";
 import Discover from "../pages/Discover";
 import Settings from "../pages/Settings";
 import About from "../pages/About";
+import PrivacyPolicy from "../pages/PirvacyPolicy";
 
 const TabMenu: React.FC = () => {
   const defaultTab = localStorage.getItem("defaultTab");
@@ -31,6 +32,8 @@ const TabMenu: React.FC = () => {
         <Route exact path="/users" component={Users} />
         <Route exact path="/settings" component={Settings} />
         <Route exact path="/about" component={About} />
+        <Route exact path="/privacy-policy" component={PrivacyPolicy} />
+
         <Route exact path="/">
           <Redirect to={defaultTab || "/feed"} />
         </Route>

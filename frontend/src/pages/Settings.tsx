@@ -10,7 +10,7 @@ import {
   IonSelectOption,
   IonToggle,
 } from "@ionic/react";
-import { informationCircleOutline } from "ionicons/icons";
+import { documentLockOutline, informationCircleOutline } from "ionicons/icons";
 import React from "react";
 
 const defaultTab = localStorage.getItem("defaultTab");
@@ -44,6 +44,14 @@ const Settings: React.FC = () => {
             <IonIcon
               aria-hidden="true"
               icon={informationCircleOutline}
+              slot="end"
+            ></IonIcon>
+          </IonItem>
+          <IonItem button routerLink="/privacy-policy">
+            <IonLabel>Privacy Policy & Disclaimer</IonLabel>
+            <IonIcon
+              aria-hidden="true"
+              icon={documentLockOutline}
               slot="end"
             ></IonIcon>
           </IonItem>
