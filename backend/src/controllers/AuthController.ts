@@ -124,7 +124,7 @@ export const AuthController = {
 
       req.user = {
         id: user.id,
-        email: user.email,
+        email: user.email || "a",
         username: user.username,
         profilePicture: user.profilePicture,
         createdAt: user.createdAt,
@@ -156,5 +156,22 @@ export const AuthController = {
         createdAt: user.createdAt,
       },
     });
+  },
+
+  githubCallback: (req: Request, res: Response) => {
+    // Generate JWT
+    const user = req.user;
+    if (!user) {
+      res.json({
+        message: "GitHub login failed",
+      });
+      return;
+    }
+
+    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.redirect(`http://localhost:5173/auth/callback?token=${token}`);
   },
 };

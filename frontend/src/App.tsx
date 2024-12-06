@@ -44,6 +44,7 @@ import { PostProvider } from "./contexts/PostContext";
 import TabMenu from "./components/TabMenu";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import AuthCallback from "./pages/AuthCallback";
 
 setupIonicReact();
 
@@ -59,6 +60,11 @@ const App: React.FC = () => {
               <IonApp className="max-w-screen-xl mx-auto p-4">
                 <IonReactRouter>
                   <IonRouterOutlet>
+                    <Route
+                      exact
+                      path="/auth/callback"
+                      component={AuthCallback}
+                    />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/register" component={Register} />
                     {isAuthenticated ? <TabMenu /> : <Redirect to="/login" />}

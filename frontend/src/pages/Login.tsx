@@ -7,12 +7,14 @@ import {
   IonItem,
   useIonRouter,
   useIonToast,
+  IonIcon,
 } from "@ionic/react";
 import { Redirect } from "react-router";
-import { login } from "../api/auth";
+import { login, loginGitHub } from "../api/auth";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
 import MainHeader from "../components/MainHeader";
+import { logoGithub } from "ionicons/icons";
 
 const Login: React.FC = () => {
   const { user } = useContext(AuthContext);
@@ -88,6 +90,16 @@ const Login: React.FC = () => {
             >
               Login
             </IonButton>
+            <IonButton
+              expand="block"
+              shape="round"
+              onClick={loginGitHub}
+              className="m-4"
+              color="dark"
+            >
+              Login with GitHub <IonIcon icon={logoGithub}></IonIcon>
+            </IonButton>
+
             <IonButton
               expand="block"
               shape="round"
