@@ -13,6 +13,11 @@ import {
 import { informationCircleOutline } from "ionicons/icons";
 import React from "react";
 
+const defaultTab = localStorage.getItem("defaultTab");
+const formattedTab = defaultTab
+  ? defaultTab.slice(1, 2).toUpperCase() + defaultTab.slice(2)
+  : "Feed";
+
 const Settings: React.FC = () => {
   return (
     <IonPage>
@@ -20,7 +25,13 @@ const Settings: React.FC = () => {
       <IonContent className="ion-padding">
         <IonList>
           <IonItem>
-            <IonSelect label="Default Tab" placeholder="Make a Selection">
+            <IonSelect
+              label="Default Tab"
+              placeholder={formattedTab}
+              onIonChange={(e) => {
+                localStorage.setItem("defaultTab", e.detail.value);
+              }}
+            >
               <IonSelectOption value="/feed">Feed</IonSelectOption>
               <IonSelectOption value="/discover">Discover</IonSelectOption>
             </IonSelect>

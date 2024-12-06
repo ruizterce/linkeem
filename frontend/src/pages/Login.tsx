@@ -36,7 +36,8 @@ const Login: React.FC = () => {
     try {
       const data = await login(email, password);
       localStorage.setItem("token", data.token);
-      window.location.href = "/feed";
+      const defaultTab = localStorage.getItem("defaultTab");
+      window.location.href = defaultTab || "/feed";
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const errorMessage =

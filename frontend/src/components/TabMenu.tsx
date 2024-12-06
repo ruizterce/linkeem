@@ -18,6 +18,7 @@ import Discover from "../pages/Discover";
 import Settings from "../pages/Settings";
 
 const TabMenu: React.FC = () => {
+  const defaultTab = localStorage.getItem("defaultTab");
   return (
     <IonTabs className="bg-background">
       <IonRouterOutlet>
@@ -29,7 +30,7 @@ const TabMenu: React.FC = () => {
         <Route exact path="/users" component={Users} />
         <Route exact path="/settings" component={Settings} />
         <Route exact path="/">
-          <Redirect to="/feed" />
+          <Redirect to={defaultTab || "/feed"} />
         </Route>
       </IonRouterOutlet>
       <IonTabBar slot="bottom" className="rounded-t-2xl shadow-t-md">
