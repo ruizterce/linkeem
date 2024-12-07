@@ -159,6 +159,9 @@
     --handle-background-checked: var(--secondary);
   }
 
+  /* Alert Text Color*/
+  --ion-color-step-850: var(--dark);
+
   ion-item > ion-icon {
     filter: invert(84%) sepia(1%) saturate(6%) hue-rotate(324deg)
       brightness(92%) contrast(88%);
