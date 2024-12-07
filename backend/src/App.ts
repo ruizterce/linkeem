@@ -7,6 +7,7 @@ import userRouter from "./routes/UserRouter";
 import postRouter from "./routes/PostRouter";
 import commentRouter from "./routes/CommentRouter";
 import AuthRouter from "./routes/AuthRouter";
+import SupportRouter from "./routes/SupportRouter";
 import path from "path";
 
 // Initialize the app
@@ -24,5 +25,6 @@ app.use("/api/users", userRouter);
 app.use("/api/posts", postRouter);
 app.use("/api/comments", commentRouter);
 app.use("/api/auth", AuthRouter);
+app.use("/api/support", SupportRouter);
 
 export default app;
