@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import nodemailer from "nodemailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
 import { google } from "googleapis";
+import { body, ValidationChain, validationResult } from "express-validator";
 
 const CLIENT_ID = process.env.GMAIL_CLIENT_ID;
 const CLIENT_SECRET = process.env.GMAIL_CLIENT_SECRET;
@@ -47,20 +48,13 @@ export async function sendSupportEmail(req: Request, res: Response) {
   const currentUserId = req.user?.id;
   const { content, contactEmail } = req.body;
 
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ message: errors.array()[0].msg });
+  }
+
   if (!currentUserId) {
     return res.status(401).json({ message: "Unauthorized" });
-  }
-
-  if (!content) {
-    return res.status(400).json({
-      message: "Missing Content",
-    });
-  }
-
-  if (!contactEmail) {
-    return res.status(400).json({
-      message: "Missing Contact Email",
-    });
   }
 
   const mailOptions = {
@@ -81,3 +75,13 @@ export async function sendSupportEmail(req: Request, res: Response) {
     res.status(500).json({ message: "Error sending email" });
   }
 }
+
+export const validateSupportEmail = [
+  body("content")
+    .isString()
+    .trim()
+    .isLength({ min: 10 })
+    .withMessage("Content must be at least 10 characters long."),
+
+  body("contactEmail").isEmail().withMessage("A valid email is required."),
+] as ValidationChain[];
