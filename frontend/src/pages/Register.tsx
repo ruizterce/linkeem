@@ -82,7 +82,8 @@ const Register: React.FC = () => {
 
   // Redirect if the user is already authenticated
   if (user) {
-    return <Redirect to="/feed" />;
+    const defaultTab = localStorage.getItem("defaultTab");
+    return <Redirect to={defaultTab || "/feed"} />;
   }
 
   return (
@@ -90,6 +91,13 @@ const Register: React.FC = () => {
       <MainHeader title="Register" />
       <IonContent className="ion-padding">
         <div className="w-full flex flex-col ion-align-items-center">
+          <img src="favicon.png" className="h-20 w-auto mb-4"></img>
+          <h1 className="font-extrabold text-3xl text-secondary leading-7">
+            Linkeem
+          </h1>
+          <h2 className="italic text-medium font-montserrat">
+            Social, Simplified
+          </h2>
           <div className="w-full max-w-md">
             <IonItem>
               <IonInput
