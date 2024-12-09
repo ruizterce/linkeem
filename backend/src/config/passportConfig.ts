@@ -1,3 +1,7 @@
+import dotenv from "dotenv";
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GitHubStrategy } from "passport-github2";
@@ -56,6 +60,8 @@ passport.use(
       callbackURL: `${process.env.API_URL}/auth/github/callback`,
     },
     async (accessToken: any, refreshToken: any, profile: any, done: any) => {
+      console.log("Access Token:", accessToken);
+      console.log("Profile:", profile);
       const email = profile.emails?.[0]?.value || null; // Fallback to null if email is missing
       const username = profile.username || `github_user_${profile.id}`; // Fallback username
       const avatar_url = profile.photos?.[0]?.value || null; // Fallback to null

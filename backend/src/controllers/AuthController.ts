@@ -172,6 +172,6 @@ export const AuthController = {
       expiresIn: "1h",
     });
 
-    res.redirect(`http://localhost:5173/auth/callback?token=${token}`);
+    res.redirect(`${process.env.GITHUB_REDIRECT_URI}?token=${token}`);
   },
 };
