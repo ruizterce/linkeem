@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 import bcrypt from "bcrypt";
+import { config } from "dotenv";
+config();
 
 const prisma = new PrismaClient();
 
@@ -14,6 +16,16 @@ async function main() {
       email: "test",
       username: "testUsername",
       password: await bcrypt.hash("123", 10),
+      profilePicture: faker.image.avatar(),
+    },
+  });
+
+  // Create guest user
+  const guestUser = await prisma.user.create({
+    data: {
+      email: "guest@account.com",
+      username: "GuestAccount",
+      password: await bcrypt.hash("12Guest34", 10),
       profilePicture: faker.image.avatar(),
     },
   });

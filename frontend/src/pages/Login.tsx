@@ -53,6 +53,28 @@ const Login: React.FC = () => {
     }
   };
 
+  const handleGuestLogin = async () => {
+    try {
+      const guestEmail = "guest@account.com";
+      const guestPassword = "12Guest34";
+      const data = await login(guestEmail, guestPassword);
+      localStorage.setItem("token", data.token);
+      const defaultTab = localStorage.getItem("defaultTab");
+      window.location.href = defaultTab || "/feed";
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const errorMessage =
+          error.response?.data?.message || "An error occurred";
+        console.error("Error logging in:", errorMessage);
+        showToast(errorMessage, "danger");
+      } else {
+        // For non-Axios errors
+        console.error("Unexpected error:", error);
+        showToast("An unexpected error occurred", "danger");
+      }
+    }
+  };
+
   // Redirect if the user is already authenticated
   if (user) {
     const defaultTab = localStorage.getItem("defaultTab");
@@ -108,6 +130,16 @@ const Login: React.FC = () => {
               color="dark"
             >
               Login with GitHub <IonIcon icon={logoGithub}></IonIcon>
+            </IonButton>
+
+            <IonButton
+              expand="block"
+              shape="round"
+              onClick={handleGuestLogin}
+              className="m-4"
+              color="primary"
+            >
+              Login as Guest
             </IonButton>
 
             <IonButton
