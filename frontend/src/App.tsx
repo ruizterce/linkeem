@@ -45,13 +45,48 @@ import TabMenu from "./components/TabMenu";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AuthCallback from "./pages/AuthCallback";
+import { useEffect } from "react";
 
 setupIonicReact();
 
-const theme = localStorage.getItem("theme") || "light";
-document.body.setAttribute("data-theme", theme);
-
 const App: React.FC = () => {
+  useEffect(() => {
+    // Get theme from localStorage or default to system preference
+    const savedTheme = localStorage.getItem("theme");
+    const prefersDarkMode = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+
+    // If there's no system preference, use saved theme
+    let theme;
+    if (prefersDarkMode) {
+      theme = "dark";
+    } else {
+      theme = savedTheme || "light";
+    }
+
+    // Set the theme in localStorage and on the body element
+    localStorage.setItem("theme", theme);
+    document.body.setAttribute("data-theme", theme);
+  }, []);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+    // Listen for changes to the system theme preference
+    const handleThemeChange = (e: MediaQueryListEvent) => {
+      const newTheme = e.matches ? "dark" : "light";
+      localStorage.setItem("theme", newTheme);
+      document.body.setAttribute("data-theme", newTheme);
+    };
+
+    mediaQuery.addEventListener("change", handleThemeChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleThemeChange);
+    };
+  }, []);
+
   return (
     <AuthProvider>
       <AuthContext.Consumer>

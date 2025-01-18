@@ -9,6 +9,7 @@ import {
   IonSelect,
   IonSelectOption,
   IonToggle,
+  useIonToast,
 } from "@ionic/react";
 import {
   documentLockOutline,
@@ -24,19 +25,53 @@ const formattedTab = defaultTab
 
 const Settings: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [present] = useIonToast();
+  const prefersDarkMode = window.matchMedia(
+    "(prefers-color-scheme: dark)"
+  ).matches;
+
+  const showToast = (message: string, color: string) => {
+    present({
+      message,
+      duration: 2000,
+      color,
+      position: "middle",
+    });
+  };
 
   useEffect(() => {
     const theme = localStorage.getItem("theme") || "light";
-    document.body.setAttribute("data-theme", theme);
     setIsDarkMode(theme === "dark");
-  }, []);
+  }, [localStorage.getItem("theme")]);
 
   const handleDarkModeToggle = (enabled: boolean) => {
+    if (prefersDarkMode) {
+      showToast("Dark mode is set in your system's preferences", "danger");
+      return;
+    }
     const theme = enabled ? "dark" : "light";
     document.body.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
     setIsDarkMode(enabled);
   };
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+    // Listen for changes to the system theme preference
+    const handleThemeChange = (e: MediaQueryListEvent) => {
+      const newTheme = e.matches ? "dark" : "light";
+      localStorage.setItem("theme", newTheme);
+      document.body.setAttribute("data-theme", newTheme);
+      setIsDarkMode(newTheme === "dark");
+    };
+
+    mediaQuery.addEventListener("change", handleThemeChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleThemeChange);
+    };
+  }, []);
 
   return (
     <IonPage>
